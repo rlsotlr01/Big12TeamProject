@@ -2,11 +2,11 @@ package lib;
 
 
 /**
- * @ÀÛ¼ºÀÚ : ±èµ¿À±
- * @ÀÛ¼ºÀÏ : 2020. 12. 15.
+ * @ï¿½Û¼ï¿½ï¿½ï¿½ : ï¿½èµ¿ï¿½ï¿½
+ * @ï¿½Û¼ï¿½ï¿½ï¿½ : 2020. 12. 15.
  * @filename : Person.java
  * @package : lib
- * @description : »ç¶÷ÀÇ ÀÎÀû»çÇ×À» ´ã´Â Å¬·¡½ºÀÔ´Ï´Ù.
+ * @description : ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ Å¬ï¿½ï¿½ï¿½ï¿½ï¿½Ô´Ï´ï¿½.
  */
 public class Person {
 	private String name;
@@ -46,6 +46,7 @@ public class Person {
 	}
 
 	public String getGroup() {
+		System.out.println("sdsdsdsdsds");
 		return group;
 	}
 
@@ -55,8 +56,8 @@ public class Person {
 	
 	@Override
 		public String toString() {
-			return "ÀÌ¸§ : "+ this.name+", ÀüÈ­¹øÈ£ : "+ this.phoneNumber+", ÁÖ¼Ò : "
-					   + this.address+ ", Á¾·ù : "+ this.group;
+			return "ï¿½Ì¸ï¿½ : "+ this.name+", ï¿½ï¿½È­ï¿½ï¿½È£ : "+ this.phoneNumber+", ï¿½Ö¼ï¿½ : "
+					   + this.address+ ", ï¿½ï¿½ï¿½ï¿½ : "+ this.group;
 		}
 	
 	
