@@ -9,49 +9,49 @@ import java.util.Set;
 
 
 /**
- * @ÀÛ¼ºÀÚ : ±èµ¿À±
- * @ÀÛ¼ºÀÏ : 2020. 12. 15.
+ * @ï¿½Û¼ï¿½ï¿½ï¿½ : ï¿½èµ¿ï¿½ï¿½
+ * @ï¿½Û¼ï¿½ï¿½ï¿½ : 2020. 12. 15.
  * @filename : Phonebook.java
  * @package : lib
- * @description : ÇÚµåÆù ¿¬¶ôÃ³¸¦ ÀúÀåÇÏ´Â ÀüÈ­¹øÈ£ºÎ ÀÀ¿ëÇÁ·Î±×·¥ ÀÔ´Ï´Ù.
+ * @description : ï¿½Úµï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Ã³ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï´ï¿½ ï¿½ï¿½È­ï¿½ï¿½È£ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Î±×·ï¿½ ï¿½Ô´Ï´ï¿½.
  */
 public class Phonebook {
 	
 	HashMap<String, Person> phoneBookList = new HashMap<String,Person>();
 	ArrayList<Person> search_list = new ArrayList<Person>(); 
-	// search ÇÑ °ªµéÀ» ³Ö±â À§ÇÑ ±×¸©.
+	// search ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ö±ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½×¸ï¿½.
 	
-	// 0. ¸Þ´º Ãâ·Â ±â´É
+	// 0. ï¿½Þ´ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½
 	public void printMenu() {	
 		System.out.println("===========================");
-		System.out.println("       ´ÙÀ½ ¸Þ´º Áß ÇÏ³ª¸¦ ¼±ÅÃÇÏ¼¼¿ä.");
+		System.out.println("       ï¿½ï¿½ï¿½ï¿½ ï¿½Þ´ï¿½ ï¿½ï¿½ ï¿½Ï³ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï¼ï¿½ï¿½ï¿½.");
 		System.out.println("===========================");
-		System.out.println("1. È¸¿ø Ãß°¡");
-		System.out.println("2. È¸¿ø ¸ñ·Ï º¸±â");
-		System.out.println("3. È¸¿ø Á¤º¸ ¼öÁ¤ÇÏ±â");
-		System.out.println("4. È¸¿ø »èÁ¦");
-		System.out.println("5. Á¾·á");
+		System.out.println("1. È¸ï¿½ï¿½ ï¿½ß°ï¿½");
+		System.out.println("2. È¸ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½");
+		System.out.println("3. È¸ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï±ï¿½");
+		System.out.println("4. È¸ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½");
+		System.out.println("5. ï¿½ï¿½ï¿½ï¿½");
 	}
 	
-	// 1. Á¾·ù È®ÀÎ ±â´É(ÀüÈ­¹øÈ£ÀÇ Á¾·ù°¡ °¡Á·,Ä£±¸,±âÅ¸ÀÎÁö È®ÀÎ)
+	// 1. ï¿½ï¿½ï¿½ï¿½ È®ï¿½ï¿½ ï¿½ï¿½ï¿½(ï¿½ï¿½È­ï¿½ï¿½È£ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½,Ä£ï¿½ï¿½,ï¿½ï¿½Å¸ï¿½ï¿½ï¿½ï¿½ È®ï¿½ï¿½)
 	public boolean groupChecker(String groupName) {
-		return ((groupName).matches("°¡Á·"))
-				|| (groupName.matches("Ä£±¸"))
-				|| (groupName.matches("±âÅ¸"));
+		return ((groupName).matches("ï¿½ï¿½ï¿½ï¿½"))
+				|| (groupName.matches("Ä£ï¿½ï¿½"))
+				|| (groupName.matches("ï¿½ï¿½Å¸"));
 	}
 	
-	// 2. ÀüÈ­¹øÈ£°¡ ÇÚµåÆù ¹øÈ£ ¶Ç´Â ÁýÀüÈ­ÀÎÁö °ËÁõÇÏ´Â ±â´É.
+	// 2. ï¿½ï¿½È­ï¿½ï¿½È£ï¿½ï¿½ ï¿½Úµï¿½ï¿½ï¿½ ï¿½ï¿½È£ ï¿½Ç´ï¿½ ï¿½ï¿½ï¿½ï¿½È­ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï´ï¿½ ï¿½ï¿½ï¿½.
 	public boolean numberChecker(String number) {
 		if(number.length() < 10) {
 			return false;
 		}
 		boolean phoneNumberChecker;
-		 boolean elevenCheck = (((number).length())==11); // 11ÀÚ¸®ÀÎÁö Ã¼Å© 
-		 boolean frontThreeCheck = ((number.substring(0, 3)).matches("010")); // ¾Õ¿¡ ¼¼ÀÚ¸® ÇÚµåÆù ¹øÈ£(010)ÀÎÁö Ã¼Å©
+		 boolean elevenCheck = (((number).length())==11); // 11ï¿½Ú¸ï¿½ï¿½ï¿½ï¿½ï¿½ Ã¼Å© 
+		 boolean frontThreeCheck = ((number.substring(0, 3)).matches("010")); // ï¿½Õ¿ï¿½ ï¿½ï¿½ï¿½Ú¸ï¿½ ï¿½Úµï¿½ï¿½ï¿½ ï¿½ï¿½È£(010)ï¿½ï¿½ï¿½ï¿½ Ã¼Å©
 		 boolean allDigitCheck = true;
 		 char[] numberArray = number.toCharArray();
 		 boolean normalNumberChecker;
-		 ArrayList<String> localNumber = new ArrayList<String>();	// Áö¿ª¹øÈ£ ¹è¿­À» »ý¼ºÇÑ´Ù.
+		 ArrayList<String> localNumber = new ArrayList<String>();	// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½È£ ï¿½è¿­ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ñ´ï¿½.
 		 localNumber.add("02");
 		 localNumber.add("031");
 		 localNumber.add("032");
@@ -70,13 +70,13 @@ public class Phonebook {
 		 localNumber.add("063");
 		 localNumber.add("064");
 		 
-		 boolean tenCheck = ((number.length())==10); // ÁýÀüÈ­´Â 10ÀÚ¸®
-		 boolean frontThreeLocalCheck;				// ¾Õ¿¡ Áö¿ª¹øÈ£ 2ÀÚ¸® ¶Ç´Â 3ÀÚ¸® È®ÀÎ
+		 boolean tenCheck = ((number.length())==10); // ï¿½ï¿½ï¿½ï¿½È­ï¿½ï¿½ 10ï¿½Ú¸ï¿½
+		 boolean frontThreeLocalCheck;				// ï¿½Õ¿ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½È£ 2ï¿½Ú¸ï¿½ ï¿½Ç´ï¿½ 3ï¿½Ú¸ï¿½ È®ï¿½ï¿½
 		 if(((number.substring(0, 2)).matches("02"))||(localNumber.contains(number.substring(0, 3)))){
 			 frontThreeLocalCheck = true;
 		 }else {
 			 frontThreeLocalCheck = false;
-		 } // Áö¿ª¹øÈ£¸¸ ¹Þ¾ÆµéÀÌ±â.
+		 } // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½È£ï¿½ï¿½ ï¿½Þ¾Æµï¿½ï¿½Ì±ï¿½.
 		 
 		 localNumber.contains(number.substring(0, 3)); 
 				 
@@ -87,94 +87,94 @@ public class Phonebook {
 			 }
 		 }
 		 
-		 phoneNumberChecker = elevenCheck&&frontThreeCheck&&allDigitCheck; // ÇÚµåÆù¹øÈ£ÀÎÁö °ËÁõ
-		 normalNumberChecker = tenCheck&&frontThreeLocalCheck&&allDigitCheck; // ÁýÀüÈ­¹øÈ£ÀÎÁö °ËÁõ
+		 phoneNumberChecker = elevenCheck&&frontThreeCheck&&allDigitCheck; // ï¿½Úµï¿½ï¿½ï¿½ï¿½ï¿½È£ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+		 normalNumberChecker = tenCheck&&frontThreeLocalCheck&&allDigitCheck; // ï¿½ï¿½ï¿½ï¿½È­ï¿½ï¿½È£ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 		 
-		 return phoneNumberChecker||normalNumberChecker; // 11 ¼ýÀÚÀÌ¸ç, ¾Õ¿¡ 3ÀÚ¸®°¡ ÇÚµåÆù¹øÈ£, ±×¸®°í ¸ðµÎ ¼ýÀÚÀÏ °æ¿ì¸¸ true ÀÌ´Ù.
+		 return phoneNumberChecker||normalNumberChecker; // 11 ï¿½ï¿½ï¿½ï¿½ï¿½Ì¸ï¿½, ï¿½Õ¿ï¿½ 3ï¿½Ú¸ï¿½ï¿½ï¿½ ï¿½Úµï¿½ï¿½ï¿½ï¿½ï¿½È£, ï¿½×¸ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ì¸¸ true ï¿½Ì´ï¿½.
 	}
 	
-	// 3. ¿¬¶ôÃ³ Ãß°¡ ±â´É
-	public void addPhoneNumber(Scanner scanner) {	// È¸¿ø Ãß°¡ ±â´É (Å°º¸µåÀÇ ±â´ÉÀ» ¾È¿¡ ³Ö¾îÁØ´Ù.)
+	// 3. ï¿½ï¿½ï¿½ï¿½Ã³ ï¿½ß°ï¿½ ï¿½ï¿½ï¿½
+	public void addPhoneNumber(Scanner scanner) {	// È¸ï¿½ï¿½ ï¿½ß°ï¿½ ï¿½ï¿½ï¿½ (Å°ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½È¿ï¿½ ï¿½Ö¾ï¿½ï¿½Ø´ï¿½.)
 		String name;
 		String phoneNumber;
 		String address;
 		String group;
 		Person person;
 		
-		System.out.println("\nµî·ÏÇÒ È¸¿øÀÇ Á¤º¸¸¦ ÀÔ·ÂÇÏ¼¼¿ä.");
-		System.out.print("ÀÌ¸§: ");
+		System.out.println("\nï¿½ï¿½ï¿½ï¿½ï¿½ È¸ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ô·ï¿½ï¿½Ï¼ï¿½ï¿½ï¿½.");
+		System.out.print("ï¿½Ì¸ï¿½: ");
 		name = scanner.nextLine();
 		
 		while(true) {
-			System.out.print("¿¬¶ôÃ³(ex: 01023233232 ¶Ç´Â 0312442858): ");
+			System.out.print("ï¿½ï¿½ï¿½ï¿½Ã³(ex: 01023233232 ï¿½Ç´ï¿½ 0312442858): ");
 			if(numberChecker(phoneNumber=scanner.nextLine())) 
-							// 010,011,018 ·Î ½ÃÀÛÇÏ´Â °Í¸¸ ¹Þ¾ÆµéÀÎ´Ù.
+							// 010,011,018 ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï´ï¿½ ï¿½Í¸ï¿½ ï¿½Þ¾Æµï¿½ï¿½Î´ï¿½.
 			{
 				break;
 			}
-		} // ¿¬¶ôÃ³ÀÇ ±æÀÌ°¡ 11ÀÌ°í, 010/011/018 ·Î ½ÃÀÛÇÏ´Â °Íµé¸¸ ¹Þ¾ÆµéÀÎ´Ù.
+		} // ï¿½ï¿½ï¿½ï¿½Ã³ï¿½ï¿½ ï¿½ï¿½ï¿½Ì°ï¿½ 11ï¿½Ì°ï¿½, 010/011/018 ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï´ï¿½ ï¿½Íµé¸¸ ï¿½Þ¾Æµï¿½ï¿½Î´ï¿½.
 		
-		System.out.print("ÁÖ¼Ò: ");
+		System.out.print("ï¿½Ö¼ï¿½: ");
 		address = scanner.nextLine();
 		while(true) {
-			System.out.print("Á¾·ù(ex.°¡Á·, Ä£±¸, ±âÅ¸): ");
+			System.out.print("ï¿½ï¿½ï¿½ï¿½(ex.ï¿½ï¿½ï¿½ï¿½, Ä£ï¿½ï¿½, ï¿½ï¿½Å¸): ");
 			if(groupChecker(group = scanner.nextLine())) {
 				break;
 			}
 			
 		}
-//		3-1. µ¤¾î ¾º¿ì±â ±â´É.
+//		3-1. ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½.
 		if(phoneBookList.keySet().contains(phoneNumber)){
 			System.out.println(phoneBookList.get(phoneNumber).toString());
-			System.out.println("±âÀÔÇÑ ¿¬¶ôÃ³·Î ÀúÀåµÇ¾î ÀÖ´Â È¸¿øÀÌ ÀÌ¹Ì Á¸ÀçÇÕ´Ï´Ù.\n±âÀÔÇÑ Á¤º¸·Î µ¤¾î ¾º¿ì½Ã°Ú½À´Ï±î? Y/N");
+			System.out.println("ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Ã³ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Ç¾ï¿½ ï¿½Ö´ï¿½ È¸ï¿½ï¿½ï¿½ï¿½ ï¿½Ì¹ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Õ´Ï´ï¿½.\nï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Ã°Ú½ï¿½ï¿½Ï±ï¿½? Y/N");
 			String choice=scanner.nextLine();
 			if(choice.matches("Y")||choice.matches("y")) {
-				System.out.println("±âÀÔÇÑ È¸¿øÀÇ Á¤º¸·Î °»½ÅµÇ¾ú½À´Ï´Ù.");
+				System.out.println("ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ È¸ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ÅµÇ¾ï¿½ï¿½ï¿½ï¿½Ï´ï¿½.");
 				person = new Person(name, phoneNumber, address, group);
 				phoneBookList.put(person.getPhoneNumber(), person);
 			}else if(choice.matches("N")||choice.matches("n")) {
-				System.out.println("±âÀÔÇÑ È¸¿øÀÇ Á¤º¸·Î °»½ÅÇÏÁö ¾Ê°í ¸ÞÀÎ ¸Þ´º·Î µ¹¾Æ°©´Ï´Ù.");
+				System.out.println("ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ È¸ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ê°ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Þ´ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Æ°ï¿½ï¿½Ï´ï¿½.");
 			}else {
-				System.out.println("Å°¸¦ Àß¸ø ÀÔ·ÂÇÏ¼Ì½À´Ï´Ù.\n Y ¶Ç´Â N À¸·Î ´Ù½Ã ±âÀÔÇØÁÖ¼¼¿ä.");
+				System.out.println("Å°ï¿½ï¿½ ï¿½ß¸ï¿½ ï¿½Ô·ï¿½ï¿½Ï¼Ì½ï¿½ï¿½Ï´ï¿½.\n Y ï¿½Ç´ï¿½ N ï¿½ï¿½ï¿½ï¿½ ï¿½Ù½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ö¼ï¿½ï¿½ï¿½.");
 			}
 		}else {
 			person = new Person(name, phoneNumber, address, group);
 			phoneBookList.put(person.getPhoneNumber(), person);
-			System.out.println("\nµî·ÏÀÌ ¿Ï·áµÇ¾ú½À´Ï´Ù.\n");
+			System.out.println("\nï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ï·ï¿½Ç¾ï¿½ï¿½ï¿½ï¿½Ï´ï¿½.\n");
 		}
 			
 	}
 	
-	// 4. È¸¿ø ¸ñ·Ï º¸±â ±â´É
+	// 4. È¸ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½
 	public void showList() {
 		Set<String> set = phoneBookList.keySet();
 		Iterator<String> it =set.iterator();
-		System.out.println("\nÃÑ "+phoneBookList.size()
-		 				  +" ¸íÀÇ È¸¿øÀÌ ÀúÀåµÇ¾î ÀÖ½À´Ï´Ù.");
+		System.out.println("\nï¿½ï¿½ "+phoneBookList.size()
+		 				  +" ï¿½ï¿½ï¿½ï¿½ È¸ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Ç¾ï¿½ ï¿½Ö½ï¿½ï¿½Ï´ï¿½.");
 		while(it.hasNext()) {
 			String phoneNumber = it.next();
 			Person person = phoneBookList.get(phoneNumber);
-			System.out.print("È¸¿øÁ¤º¸ - "+person.toString());
+			System.out.print("È¸ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ - "+person.toString());
 			System.out.println();
 		}
 		
 	}
 	
 	
-	// 5. È¸¿ø Á¤º¸ ¼öÁ¤ÇÏ±â ±â´É
+	// 5. È¸ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï±ï¿½ ï¿½ï¿½ï¿½
 	public void editPerson(Scanner scanner) {
 		if(!phoneBookList.isEmpty()) {
 			while(true) {
-				System.out.println("\n¼öÁ¤ÇÒ È¸¿øÀÇ ÀÌ¸§À» ÀÔ·ÂÇÏ¼¼¿ä.");
+				System.out.println("\nï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ È¸ï¿½ï¿½ï¿½ï¿½ ï¿½Ì¸ï¿½ï¿½ï¿½ ï¿½Ô·ï¿½ï¿½Ï¼ï¿½ï¿½ï¿½.");
 				searchFunction(scanner); 
-//				±× ÀÌ¸§¿¡ ÇØ´çÇÏ´Â È¸¿øÀÌ Á¸ÀçÇÏÁö ¾ÊÀ¸¸é ¸Þ´º·Î µ¹¾Æ°¨.
+//				ï¿½ï¿½ ï¿½Ì¸ï¿½ï¿½ï¿½ ï¿½Ø´ï¿½ï¿½Ï´ï¿½ È¸ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Þ´ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Æ°ï¿½.
 				if(search_list.size()==0) {
 					break;
 				}
 				
 				
 				while(true) {
-					System.out.println("¾Æ·¡ ¸ñ·Ï Áß ¼öÁ¤ÇÒ È¸¿øÀÇ ¹øÈ£¸¦ ÀÔ·ÂÇÏ¼¼¿ä. \n(0¹øÀ» ÀÔ·ÂÇÏ½Ã¸é ¸ÞÀÎ¸Þ´º·Î µ¹¾Æ°©´Ï´Ù.)");
+					System.out.println("ï¿½Æ·ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ È¸ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½È£ï¿½ï¿½ ï¿½Ô·ï¿½ï¿½Ï¼ï¿½ï¿½ï¿½. \n(0ï¿½ï¿½ï¿½ï¿½ ï¿½Ô·ï¿½ï¿½Ï½Ã¸ï¿½ ï¿½ï¿½ï¿½Î¸Þ´ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Æ°ï¿½ï¿½Ï´ï¿½.)");
 					for(int i=0; i<search_list.size(); i++) {
 						Person person = search_list.get(i);
 						System.out.println((i+1)+"."+person.toString());
@@ -183,54 +183,54 @@ public class Phonebook {
 					
 					int choice;
 					
-//				¸ñ·Ï¿¡ ÀÖ´Â È¸¿ø ¿ÜÀÇ °ÍÀ» ¼±ÅÃÇÒ ¶§ °ËÁõÇØÁÖ´Â ÇÁ·Î±×·¥.
-//				InputMismatch exception ÇØ°á ¿Ï·á.
+//				ï¿½ï¿½Ï¿ï¿½ ï¿½Ö´ï¿½ È¸ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ö´ï¿½ ï¿½ï¿½ï¿½Î±×·ï¿½.
+//				InputMismatch exception ï¿½Ø°ï¿½ ï¿½Ï·ï¿½.
 					try {
 						while(((choice = scanner.nextInt()-1)>=search_list.size())||(choice < -1)) {
-							System.out.println("¼±ÅÃÇÑ ¼ö°¡ À¯È¿ÇÏÁö ¾Ê½À´Ï´Ù. ¼öÁ¤ÇÒ È¸¿øÀÇ ¹øÈ£¸¦ ´Ù½Ã ÀÔ·ÂÇØÁÖ¼¼¿ä.\n0¹øÀ» ´©¸£½Ã¸é ¸ÞÀÎ¸Þ´º·Î µ¹¾Æ°©´Ï´Ù.");
+							System.out.println("ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½È¿ï¿½ï¿½ï¿½ï¿½ ï¿½Ê½ï¿½ï¿½Ï´ï¿½. ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ È¸ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½È£ï¿½ï¿½ ï¿½Ù½ï¿½ ï¿½Ô·ï¿½ï¿½ï¿½ï¿½Ö¼ï¿½ï¿½ï¿½.\n0ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ã¸ï¿½ ï¿½ï¿½ï¿½Î¸Þ´ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Æ°ï¿½ï¿½Ï´ï¿½.");
 						}
 						scanner.nextLine();
-						// ¿©±â¼­ ÀÔ·Â¹Þ´Â ¼ýÀÚ°¡ ÀÎµ¦½º ¼ýÀÚº¸´Ù ÀÛµµ·Ï °ËÁõ¿Ï·á 
-						// ¸¸¾à¿¡ ÀÎµ¦½º ¼ýÀÚº¸´Ù Å©¸é ´ÙÀ½ °úÁ¤ ÁøÇàµÇ¸é ¾ÈµÊ.
+						// ï¿½ï¿½ï¿½â¼­ ï¿½Ô·Â¹Þ´ï¿½ ï¿½ï¿½ï¿½Ú°ï¿½ ï¿½Îµï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Úºï¿½ï¿½ï¿½ ï¿½Ûµï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï·ï¿½ 
+						// ï¿½ï¿½ï¿½à¿¡ ï¿½Îµï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Úºï¿½ï¿½ï¿½ Å©ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Ç¸ï¿½ ï¿½Èµï¿½.
 						if(choice==-1) {
-							System.out.println("¸ÞÀÎ ¸Þ´º·Î ÀÌµ¿ÇÕ´Ï´Ù.\n");
+							System.out.println("ï¿½ï¿½ï¿½ï¿½ ï¿½Þ´ï¿½ï¿½ï¿½ ï¿½Ìµï¿½ï¿½Õ´Ï´ï¿½.\n");
 							search_list.clear();
 							break;
 						}
 						
-						System.out.println("¼öÁ¤ÇÒ Á¤º¸¸¦ ÀÔ·ÂÇÏ¼¼¿ä.");
-						System.out.print("ÀÌ¸§: ");
+						System.out.println("ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ô·ï¿½ï¿½Ï¼ï¿½ï¿½ï¿½.");
+						System.out.print("ï¿½Ì¸ï¿½: ");
 						String edited_name = scanner.nextLine();
 						String edited_phoneNumber;
 						
-//					ÇÚµåÆù¹øÈ£ ¶Ç´Â ÁýÀüÈ­Çü½Ä ¾Æ´Ï¸é ´Ù½Ã ¿¬¶ôÃ³¸¦ ¹Þµµ·Ï °ËÁõÇÔ.
+//					ï¿½Úµï¿½ï¿½ï¿½ï¿½ï¿½È£ ï¿½Ç´ï¿½ ï¿½ï¿½ï¿½ï¿½È­ï¿½ï¿½ï¿½ï¿½ ï¿½Æ´Ï¸ï¿½ ï¿½Ù½ï¿½ ï¿½ï¿½ï¿½ï¿½Ã³ï¿½ï¿½ ï¿½Þµï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½.
 						while(true) { 
-							System.out.print("¿¬¶ôÃ³(ex: 01023233232 ¶Ç´Â 0312442858): ");
+							System.out.print("ï¿½ï¿½ï¿½ï¿½Ã³(ex: 01023233232 ï¿½Ç´ï¿½ 0312442858): ");
 							if(numberChecker(edited_phoneNumber=scanner.nextLine())) 
-								// ÇÚµåÆù ¹øÈ£ ¶Ç´Â ÁýÀüÈ­¹øÈ£ Çü½Ä¸¸ ¹Þ¾ÆµéÀÎ´Ù.
+								// ï¿½Úµï¿½ï¿½ï¿½ ï¿½ï¿½È£ ï¿½Ç´ï¿½ ï¿½ï¿½ï¿½ï¿½È­ï¿½ï¿½È£ ï¿½ï¿½ï¿½Ä¸ï¿½ ï¿½Þ¾Æµï¿½ï¿½Î´ï¿½.
 							{
 								break;
 							}
 						}
 						
-//					ÁÖ¼Ò ±âÀÔ - °ËÁõÇÏ´Â°Å µû·Î ¾øÀ½.
-						System.out.print("ÁÖ¼Ò: ");
+//					ï¿½Ö¼ï¿½ ï¿½ï¿½ï¿½ï¿½ - ï¿½ï¿½ï¿½ï¿½ï¿½Ï´Â°ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½.
+						System.out.print("ï¿½Ö¼ï¿½: ");
 						String edited_address = scanner.nextLine();
 						String edited_group;
 						
-//					Á¾·ù¸¦ ÀÔ·ÂÇÒ ¶§, °¡Á·,Ä£±¸,±âÅ¸ ÀÌ ¼¼°¡Áö ÀÌ¿ÜÀÇ °ÍÀ» ³Ö¾úÀ» ¶© ´Ù½Ã ÀÔ·ÂÇÏµµ·Ï °ËÁõ.
+//					ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ô·ï¿½ï¿½ï¿½ ï¿½ï¿½, ï¿½ï¿½ï¿½ï¿½,Ä£ï¿½ï¿½,ï¿½ï¿½Å¸ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ì¿ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ö¾ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½Ù½ï¿½ ï¿½Ô·ï¿½ï¿½Ïµï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½.
 						while(true) {
-							System.out.print("Á¾·ù(ex.°¡Á·, Ä£±¸, ±âÅ¸): ");
+							System.out.print("ï¿½ï¿½ï¿½ï¿½(ex.ï¿½ï¿½ï¿½ï¿½, Ä£ï¿½ï¿½, ï¿½ï¿½Å¸): ");
 							if(groupChecker(edited_group = scanner.nextLine())) { 
-								// Á¾·ù°¡ °¡Á· Ä£±¸ ±âÅ¸ ÀÌ ¼¼°¡ÁöÀÎÁö ¾Æ´ÑÁö °ËÁõÇÑ´Ù.
+								// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ Ä£ï¿½ï¿½ ï¿½ï¿½Å¸ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Æ´ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ñ´ï¿½.
 								break;
 							}
 						}
 						
-//						Áßº¹½Ã µ¤¾î¾º¿ï °ÍÀÎÁö È®ÀÎÇÏ´Â ±â´É.
+//						ï¿½ßºï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½î¾ºï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ È®ï¿½ï¿½ï¿½Ï´ï¿½ ï¿½ï¿½ï¿½.
 						if(phoneBookList.keySet().contains(edited_phoneNumber)){
 							System.out.println(phoneBookList.get(edited_phoneNumber).toString());
-							System.out.println("±âÀÔÇÑ ¿¬¶ôÃ³·Î ÀúÀåµÇ¾î ÀÖ´Â È¸¿øÀÌ ÀÌ¹Ì Á¸ÀçÇÕ´Ï´Ù.\n±âÀÔÇÑ Á¤º¸·Î µ¤¾î ¾º¿ì½Ã°Ú½À´Ï±î? Y/N");
+							System.out.println("ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Ã³ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Ç¾ï¿½ ï¿½Ö´ï¿½ È¸ï¿½ï¿½ï¿½ï¿½ ï¿½Ì¹ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Õ´Ï´ï¿½.\nï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Ã°Ú½ï¿½ï¿½Ï±ï¿½? Y/N");
 							String choice2=scanner.nextLine();
 							if(choice2.matches("Y")||choice2.matches("y")) {
 								phoneBookList.remove(search_list.get(choice).getPhoneNumber());
@@ -239,19 +239,19 @@ public class Phonebook {
 								search_list.get(choice).setAddress(edited_address);
 								search_list.get(choice).setGroup(edited_group);
 								phoneBookList.put(search_list.get(choice).getPhoneNumber(), search_list.get(choice));
-								System.out.println("\n¼öÁ¤ÀÌ ¿Ï·áµÇ¾ú½À´Ï´Ù.\n");
+								System.out.println("\nï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ï·ï¿½Ç¾ï¿½ï¿½ï¿½ï¿½Ï´ï¿½.\n");
 								search_list.clear();
 								break;	
 							}else if(choice2.matches("N")||choice2.matches("n")) {
-								System.out.println("\n±âÀÔÇÑ È¸¿øÀÇ Á¤º¸·Î °»½ÅÇÏÁö ¾Ê°í ¸ÞÀÎ ¸Þ´º·Î µ¹¾Æ°©´Ï´Ù.\n");
+								System.out.println("\nï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ È¸ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ê°ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Þ´ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Æ°ï¿½ï¿½Ï´ï¿½.\n");
 								search_list.clear();
 								break;
 							}else {
-								System.out.println("Å°¸¦ Àß¸ø ÀÔ·ÂÇÏ¼Ì½À´Ï´Ù.\n Y ¶Ç´Â N À¸·Î ´Ù½Ã ±âÀÔÇØÁÖ¼¼¿ä.");
+								System.out.println("Å°ï¿½ï¿½ ï¿½ß¸ï¿½ ï¿½Ô·ï¿½ï¿½Ï¼Ì½ï¿½ï¿½Ï´ï¿½.\n Y ï¿½Ç´ï¿½ N ï¿½ï¿½ï¿½ï¿½ ï¿½Ù½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ö¼ï¿½ï¿½ï¿½.");
 								search_list.clear();
 							}
 						}else {
-//							°ËÁõ¹ÞÀº ¼öÁ¤ ÈÄÀÇ ÀÌ¸§, ÀüÈ­¹øÈ£, ÁÖ¼Ò, Á¾·ù¸¦ °¢°¢ ´ã´Â´Ù.
+//							ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ì¸ï¿½, ï¿½ï¿½È­ï¿½ï¿½È£, ï¿½Ö¼ï¿½, ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Â´ï¿½.
 							phoneBookList.remove(search_list.get(choice).getPhoneNumber());
 							search_list.get(choice).setName(edited_name); 
 							search_list.get(choice).setPhoneNumber(edited_phoneNumber);
@@ -259,51 +259,51 @@ public class Phonebook {
 							search_list.get(choice).setGroup(edited_group);
 							phoneBookList.put(search_list.get(choice).getPhoneNumber(), search_list.get(choice));
 							search_list.clear();
-							System.out.println("\n¼öÁ¤ÀÌ ¿Ï·áµÇ¾ú½À´Ï´Ù.\n");
+							System.out.println("\nï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ï·ï¿½Ç¾ï¿½ï¿½ï¿½ï¿½Ï´ï¿½.\n");
 							break;	
 						}		
 					}catch(InputMismatchException e) {
 						scanner.nextLine();
-						System.out.println("¼ýÀÚ¸¦ ÀÔ·ÂÇØÁÖ¼¼¿ä.");
+						System.out.println("ï¿½ï¿½ï¿½Ú¸ï¿½ ï¿½Ô·ï¿½ï¿½ï¿½ï¿½Ö¼ï¿½ï¿½ï¿½.");
 						continue;
 					}
 				}
 				break;
 			}			
 			}else {
-//			¸ñ·Ï¿¡ ¿¬¶ôÃ³°¡ ÇÏ³ªµµ ¾øÀ» ¶§´Â ´Ù½Ã ÃÊ±â¸Þ´º·Î µ¹¾Æ°¨.
-			System.out.println("\n¼öÁ¤ÇÒ ¼ö ÀÖ´Â È¸¿øÀÌ ¾ø½À´Ï´Ù.\n");
+//			ï¿½ï¿½Ï¿ï¿½ ï¿½ï¿½ï¿½ï¿½Ã³ï¿½ï¿½ ï¿½Ï³ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ù½ï¿½ ï¿½Ê±ï¿½Þ´ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Æ°ï¿½.
+			System.out.println("\nï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½Ö´ï¿½ È¸ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï´ï¿½.\n");
 		}		
 	}
 	
-	// 6. °Ë»öÇÏ´Â ±â´É
+	// 6. ï¿½Ë»ï¿½ï¿½Ï´ï¿½ ï¿½ï¿½ï¿½
 	public void searchFunction(Scanner scanner) {
-		System.out.print("ÀÌ¸§ : ");
+		System.out.print("ï¿½Ì¸ï¿½ : ");
 		String name = scanner.nextLine();
-//		ÀÌ¸§ ¹Þ¾Æ µé¿´°í, ÀÌÁ¦ Ã£¾Æ³»¾ß µÊ.
-//		ÀÌÁ¦ HashMap ¹Ýº¹¹® µ¹·Á¼­, ÀÌ¸§ÀÌ ±× ÀÌ¸§ÀÌ¸é search_list ¿¡ Ãß°¡ÇØ¾ß ÇÔ.
+//		ï¿½Ì¸ï¿½ ï¿½Þ¾ï¿½ ï¿½é¿´ï¿½ï¿½, ï¿½ï¿½ï¿½ï¿½ Ã£ï¿½Æ³ï¿½ï¿½ï¿½ ï¿½ï¿½.
+//		ï¿½ï¿½ï¿½ï¿½ HashMap ï¿½Ýºï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½, ï¿½Ì¸ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½Ì¸ï¿½ï¿½Ì¸ï¿½ search_list ï¿½ï¿½ ï¿½ß°ï¿½ï¿½Ø¾ï¿½ ï¿½ï¿½.
 		Set<String> phoneNumbers = phoneBookList.keySet();
 		Iterator<String> it = phoneNumbers.iterator();
 		while (it.hasNext()) {
 			Person person = phoneBookList.get(it.next());
 			if (person.getName().matches(name)) {
-				search_list.add(person); // °Ë»öÇÑ ÀÌ¸§¿¡ ÇØ´çÇÏ´Â »ç¶÷ÀÌ ÀÖÀ¸¸é ArrayList ¿¡ »ðÀÔ.
+				search_list.add(person); // ï¿½Ë»ï¿½ï¿½ï¿½ ï¿½Ì¸ï¿½ï¿½ï¿½ ï¿½Ø´ï¿½ï¿½Ï´ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ArrayList ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½.
 			}
 		}
 		if(search_list.size()==0) {
-			System.out.println("\nÇØ´çÇÏ´Â È¸¿ø Á¤º¸°¡ ¾ø½À´Ï´Ù.\n");
+			System.out.println("\nï¿½Ø´ï¿½ï¿½Ï´ï¿½ È¸ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï´ï¿½.\n");
 			return;
 		}else {
-			System.out.println("ÃÑ "+ search_list.size() + "°³ÀÇ ¸ñ·ÏÀÌ °Ë»öµÇ¾ú½À´Ï´Ù.");			
+			System.out.println("ï¿½ï¿½ "+ search_list.size() + "ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ë»ï¿½ï¿½Ç¾ï¿½ï¿½ï¿½ï¿½Ï´ï¿½.");			
 		}
 	}
 	
 	
-	// 7. È¸¿ø »èÁ¦ ±â´É
+	// 7. È¸ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½
 	public void removePerson(Scanner scanner) {
-//		ÀüÈ­¹øÈ£ºÎ¿¡ Àû¾îµµ ÇÑ¸íÀÌ¶óµµ ÀÖÀ» ¶§ ´ÙÀ½ ´Ü°è·Î ³Ñ¾î°£´Ù.
+//		ï¿½ï¿½È­ï¿½ï¿½È£ï¿½Î¿ï¿½ ï¿½ï¿½ï¿½îµµ ï¿½Ñ¸ï¿½ï¿½Ì¶ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ü°ï¿½ï¿½ ï¿½Ñ¾î°£ï¿½ï¿½.
 		if(!phoneBookList.isEmpty()) {
-			System.out.println("\n»èÁ¦ÇÒ È¸¿øÀÇ ÀÌ¸§À» ÀÔ·ÂÇÏ¼¼¿ä.");			
+			System.out.println("\nï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ È¸ï¿½ï¿½ï¿½ï¿½ ï¿½Ì¸ï¿½ï¿½ï¿½ ï¿½Ô·ï¿½ï¿½Ï¼ï¿½ï¿½ï¿½.");			
 			searchFunction(scanner);
 			
 			if(search_list.size()==0) {
@@ -311,48 +311,50 @@ public class Phonebook {
 			}
 			
 			while(true) {
-				System.out.println("¾Æ·¡ ¸ñ·Ï Áß »èÁ¦ÇÒ È¸¿øÀÇ ¹øÈ£¸¦ ÀÔ·ÂÇÏ¼¼¿ä. \n(»èÁ¦¸¦ ¿øÇÏÁö ¾ÊÀ» °æ¿ì 0¹øÀ» ÀÔ·ÂÇØÁÖ¼¼¿ä.)");			
+				System.out.println("ï¿½Æ·ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ È¸ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½È£ï¿½ï¿½ ï¿½Ô·ï¿½ï¿½Ï¼ï¿½ï¿½ï¿½. \n(ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ 0ï¿½ï¿½ï¿½ï¿½ ï¿½Ô·ï¿½ï¿½ï¿½ï¿½Ö¼ï¿½ï¿½ï¿½.)");			
 				if(!search_list.isEmpty()) { 
 					for(int i=0; i<search_list.size(); i++) {
 						Person person = search_list.get(i);
 						System.out.println((i+1)+"."+person.toString());						 
 					} 
-//					InputMismatchException Ã³¸® ¿Ï·á.
+//					InputMismatchException Ã³ï¿½ï¿½ ï¿½Ï·ï¿½.
 					try {
 						int choice;
 						while(((choice = scanner.nextInt()-1)>=search_list.size())||(choice < -1)) {
-							System.out.println("¼±ÅÃÇÑ ¼ö°¡ À¯È¿ÇÏÁö ¾Ê½À´Ï´Ù. ¼öÁ¤ÇÒ È¸¿øÀÇ ¹øÈ£¸¦ ´Ù½Ã ÀÔ·ÂÇØÁÖ¼¼¿ä.\n0¹øÀ» ´©¸£½Ã¸é ¸ÞÀÎ¸Þ´º·Î µ¹¾Æ°©´Ï´Ù.");
+							System.out.println("ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½È¿ï¿½ï¿½ï¿½ï¿½ ï¿½Ê½ï¿½ï¿½Ï´ï¿½. ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ È¸ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½È£ï¿½ï¿½ ï¿½Ù½ï¿½ ï¿½Ô·ï¿½ï¿½ï¿½ï¿½Ö¼ï¿½ï¿½ï¿½.\n0ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ã¸ï¿½ ï¿½ï¿½ï¿½Î¸Þ´ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Æ°ï¿½ï¿½Ï´ï¿½.");
 						}
 						scanner.nextLine();
 						if(choice == -1) {
-							System.out.println("\n¸ÞÀÎ ¸Þ´º·Î µ¹¾Æ°©´Ï´Ù.\n");
+							System.out.println("\nï¿½ï¿½ï¿½ï¿½ ï¿½Þ´ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Æ°ï¿½ï¿½Ï´ï¿½.\n");
 							search_list.clear();
 							break;
 						}
-//						ÀÎµ¦½º ¹üÀ§ ³Ñ¾î°¡´Â°Å ¿¹¿ÜÃ³¸® ¿Ï·á.
+//						ï¿½Îµï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ñ¾î°¡ï¿½Â°ï¿½ ï¿½ï¿½ï¿½ï¿½Ã³ï¿½ï¿½ ï¿½Ï·ï¿½.
 						try {
 							phoneBookList.remove(search_list.get(choice).getPhoneNumber());
-							System.out.println("\nÇØ´ç È¸¿øÀÇ ¿¬¶ôÃ³°¡ »èÁ¦µÇ¾ú½À´Ï´Ù.\n");
-							search_list.clear(); // ¸ñ·ÏÀÌ ÀÌÁ¦ ÇÊ¿ä°¡ ¾øÀ¸´Ï ÃÊ±âÈ­¸¦ ½ÃÄÑÁØ´Ù.
+							System.out.println("\nï¿½Ø´ï¿½ È¸ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Ã³ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ç¾ï¿½ï¿½ï¿½ï¿½Ï´ï¿½.\n");
+							search_list.clear(); // ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ê¿ä°¡ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ê±ï¿½È­ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ø´ï¿½.
 							break;
 						}catch(IndexOutOfBoundsException e) {						
-							System.out.println("¼±ÅÃÇÑ ¼ö°¡ À¯È¿ÇÏÁö ¾Ê½À´Ï´Ù. \n»èÁ¦ÇÒ È¸¿øÀÇ ¹øÈ£¸¦ ´Ù½Ã ÀÔ·ÂÇØÁÖ¼¼¿ä.");
+							System.out.println("ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½È¿ï¿½ï¿½ï¿½ï¿½ ï¿½Ê½ï¿½ï¿½Ï´ï¿½. \nï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ È¸ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½È£ï¿½ï¿½ ï¿½Ù½ï¿½ ï¿½Ô·ï¿½ï¿½ï¿½ï¿½Ö¼ï¿½ï¿½ï¿½.");
 						}					
-//					¼ýÀÚ°¡ ¾Æ´Ñ ÀÎÇ² ¿¹¿Ü Ã³¸®. (int choice (¼±ÅÃÇÒ ¶§))
+//					ï¿½ï¿½ï¿½Ú°ï¿½ ï¿½Æ´ï¿½ ï¿½ï¿½Ç² ï¿½ï¿½ï¿½ï¿½ Ã³ï¿½ï¿½. (int choice (ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½))
 					}catch(InputMismatchException e) {
 						scanner.nextLine();
-						System.out.println("¼ýÀÚ¸¦ ÀÔ·ÂÇØÁÖ¼¼¿ä.");
+						System.out.println("ï¿½ï¿½ï¿½Ú¸ï¿½ ï¿½Ô·ï¿½ï¿½ï¿½ï¿½Ö¼ï¿½ï¿½ï¿½.");
 						continue;
 					}
 				}else {
-//					°Ë»ö ¸®½ºÆ®¿¡ ³»°¡ °Ë»öÇÏ´Â ÀÌ¸§ÀÌ ¾øÀ¸¸é ¸ÞÀÎ¸Þ´º·Î µ¹¾Æ°£´Ù.
-					System.out.println("\n°Ë»öÇÏ½Å ÀÌ¸§À» Ã£À» ¼ö ¾ø½À´Ï´Ù.\n");
+//					ï¿½Ë»ï¿½ ï¿½ï¿½ï¿½ï¿½Æ®ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ë»ï¿½ï¿½Ï´ï¿½ ï¿½Ì¸ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Î¸Þ´ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Æ°ï¿½ï¿½ï¿½.
+					System.out.println("\nï¿½Ë»ï¿½ï¿½Ï½ï¿½ ï¿½Ì¸ï¿½ï¿½ï¿½ Ã£ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï´ï¿½.\n");
 					break;
 				}
 			}
-		}else { // ¸ñ·Ï¿¡ ¿¬¶ôÃ³°¡ ÇÏ³ªµµ ¾øÀ» ¶© ¸ÞÀÎ¸Þ´º·Î µ¹¾Æ°£´Ù.
-			System.out.println("\n»èÁ¦ÇÒ ¼ö ÀÖ´Â È¸¿øÀÌ ¾ø½À´Ï´Ù.\n");			
+		}else { // ï¿½ï¿½Ï¿ï¿½ ï¿½ï¿½ï¿½ï¿½Ã³ï¿½ï¿½ ï¿½Ï³ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½Î¸Þ´ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Æ°ï¿½ï¿½ï¿½.
+			System.out.println("\nï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½Ö´ï¿½ È¸ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï´ï¿½.\n");			
 		}
 	}	
 }
 
+// rrrrrrrrrrrrrrrrrr
+// íŒ¨ì¹˜íŒ¨ì¹˜
