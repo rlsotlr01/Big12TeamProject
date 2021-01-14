@@ -46,7 +46,7 @@ public class Person {
 	}
 
 	public String getGroup() {
-		System.out.println("sdsdsdsdsds");
+		// 불필요한 함수를 지웁니다.
 		return group;
 	}
 
