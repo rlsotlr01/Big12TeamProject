@@ -64,30 +64,31 @@ class DayCollect:
     def start_get_days_data(self, codes):
         last_index = 0
         for idx, code in enumerate(codes):
+            # sqlite_master는 sqlite db 관리자 같은 개념으로 where=name=code[0]은 해당 이름의 테이블 존재 여부 체크 가능
             self.c.execute('SELECT COUNT(*) FROM sqlite_master WHERE name="' + code[0]+'"')
             test = self.c.fetchall()
-            if test[0][0] == 0:
-                last_index = idx-1
-
-                self.c.execute('delete from ' + codes[last_index][0])       # 중간에 끊긴 일별 데이터 테이블 삭제 후 다시 시작
+            if test[0][0] == 0:     # table이 존재하면 1, 존재하지 않으면 0을 가짐
+                last_index = idx-1  # 존재 하지 않는 테이블이면 존재하는 테이블의 인덱스를 last_index로 저장하고
+                self.c.execute('delete from ' + codes[last_index][0])       # 중간에 끊긴 일별 데이터 테이블 삭제하여 해당 데이터를 다시 받기 시작
                 break
 
         # 일자별 data object 생성
-        for index, code in enumerate(codes):          # 반복문을 통해
-            if index < last_index:
+        for index, code in enumerate(codes):    # 반복문을 통해
+            if index < last_index:              # 받을 테이블까지 continue
                 continue
             print('start insert to db : ' + code[0] + " : " + code[1])
+            # 종목코드 & 서브코드 & 종목명 을 저장항 table 생성
             self.c.execute("CREATE TABLE IF NOT EXISTS " + code[0] + "(day integer PRIMARY KEY, cur_pr integer, "
                                                                      "high_pr integer, low_pr integer, clo_pr integer, "
                                                                      "pr_diff integer, acc_vol integer,"
                                                                      "for_stor integer, for_stor_diff integer, "
                                                                      "for_perc real, com_buy_vol integer, oot_cur_pr integer,"
                                                                      "oot_high_pr integer, oot_low_pr integer, oot_clo_pr integer,"
-                                                                     "oot_pr_diff integer, oot_vol integer, for_buy_vol integer )")  # 종목코드 & 서브코드 & 종목명 을 저장항 table 생성
+                                                                     "oot_pr_diff integer, oot_vol integer, for_buy_vol integer )")
 
             self.objStockWeek.SetInputValue(0, code[0])  # 종목 코드설정.
 
-            index = 1
+            index = 1       # 현 종목을 몇번째 받아오는지 체크할 변수
             if self.reqeustData(self.objStockWeek, code, index):     # Data를 가져오는데 성공하면
                 # 연속 데이터 요청
                 while self.objStockWeek.Continue:       # 연속 조회처리
