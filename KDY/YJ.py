@@ -94,12 +94,12 @@ def collect_data_info():
     ]
     data_df = pd.DataFrame(
         {
-             'name': collect_data_info().name
-            ,'code': collect_data_info().code
-            ,'class': collect_data_info().market
-            ,'market_cap': collect_data_info().marketcap
-            ,'reg_day': collect_data_info().reg_day
-            ,'per': collect_data_info().per
+             'name': name
+            ,'code': code
+            ,'class': market
+            ,'market_cap': marketcap
+            ,'reg_day': reg_day
+            ,'per': per
         }
     )
 
