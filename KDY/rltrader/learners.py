@@ -271,11 +271,16 @@ class ReinforcementLearner:
         # 배치 학습 데이터 생성
         x, y_value, y_policy = self.get_batch(
             batch_size, delayed_reward, discount_factor)
+        # delayed_reward 에 도달할 때 까지의 batch 데이터를 모으는 함수이다.
+
+
         if len(x) > 0:
             loss = 0
             if y_value is not None:
                 # 가치 신경망 갱신
                 loss += self.value_network.train_on_batch(x, y_value)
+                # 축적된 데이터(x)와 정답(y_value - 가치신경망의 가치)로 loss를 구하고,
+                # 얻은 loss 로 경사하강법을 실행해 매개변수를 업데이트 시킨다.
             if y_policy is not None:
                 # 정책 신경망 갱신
                 loss += self.policy_network.train_on_batch(x, y_policy)
@@ -294,24 +299,37 @@ class ReinforcementLearner:
                 self.loss += abs(_loss)
                 self.learning_cnt += 1
                 self.memory_learning_idx.append(self.training_data_idx)
+                # 축적 데이터에 트레이닝 데이터의 인덱스를 쌓는다.
             self.batch_size = 0
 
     # 에포크 정보 가시화 함수
     def visualize(self, epoch_str, num_epoches, epsilon):
+        # 에이전트의 행동
         self.memory_action = [Agent.ACTION_HOLD] \
             * (self.num_steps - 1) + self.memory_action
+        # 무의미없는 num_steps 만큼의 데이터에 + 실제 행동 기억재현함수를 넣는다.
+        # 보유 주식 수
         self.memory_num_stocks = [0] * (self.num_steps - 1) \
             + self.memory_num_stocks
+        # 가치 신경망 출력
         if self.value_network is not None:
             self.memory_value = [np.array([np.nan] \
                 * len(Agent.ACTIONS))] * (self.num_steps - 1) \
                     + self.memory_value
+        # 정책 신경망 출력
         if self.policy_network is not None:
             self.memory_policy = [np.array([np.nan] \
                 * len(Agent.ACTIONS))] * (self.num_steps - 1) \
                     + self.memory_policy
+        # 포트폴리오 가치
         self.memory_pv = [self.agent.initial_balance] \
             * (self.num_steps - 1) + self.memory_pv
+        # LSTM 이나 CNN을 사용하는 겨우 에이전트 행동, 보유 주식 수,
+        # 가치 신경망 출력, 정책 신경망 출력, 포트폴리오 가치는
+        # 환경의 일봉 수 보다 num_steps-1 만큼 부족함.
+        # 그래서 이를 메워주기 위해서 만듬.
+
+       # 가시화 시작
         self.visualizer.plot(
             epoch_str=epoch_str, num_epoches=num_epoches, 
             epsilon=epsilon, action_list=Agent.ACTIONS, 
@@ -324,10 +342,14 @@ class ReinforcementLearner:
             initial_balance=self.agent.initial_balance, 
             pvs=self.memory_pv,
         )
+        # visualizer.plot 함수는 도화지(figure)에
+        # 그래프를 완성해주는 함수.
+
         self.visualizer.save(os.path.join(
             self.epoch_summary_dir, 
             'epoch_summary_{}.png'.format(epoch_str))
         )
+        # figure 을 png 로 저장한다.
 
     # 강화학습 수행 함수
     def run(
@@ -342,6 +364,22 @@ class ReinforcementLearner:
             max_trading_unit=self.agent.max_trading_unit,
             delayed_reward_threshold=self.agent.delayed_reward_threshold
         )
+        # 변수 설명
+        # num_epoches : 수행할 반복 학습 횟수
+        # balance : 초기 투자 자본금
+        # discount_factor : 할인율
+        # start_epsilon : 초기 탐험 확률
+        # learning : 학습 유무
+        # run() : 함수에 들어오면 강화학습 설정을 로그로 기억한다.
+        #         그리고 학습 시작 시간을 저장해준다.
+        #         학습 종료 후의 시간과의 차이를 학습시간으로 기록하기 위함.
+
+        # 학습된 모델로 투자 시뮬레이션을 돌리고 싶을 경우엔
+        # learning 을 False 로 지정해준다.
+        # 그래서 예를 들면 start_data end_data 를 20170101 20191231 로 학습 시키고,
+        # 이후 --learning 을 False 로 지정하고, start_data, end_data 를 20200101 20200631 이렇게
+        # 테스트를 해볼 수 있는거지.
+
         with self.lock:
             logging.info(info)
 
@@ -351,19 +389,27 @@ class ReinforcementLearner:
         # 가시화 준비
         # 차트 데이터는 변하지 않으므로 미리 가시화
         self.visualizer.prepare(self.environment.chart_data, info)
+        # prepare() : 가시화 준비 함수.
+        # prepare() 함수는 에포크가 진행되도 변하지 않는 주식투자 환경인
+        # 차트 데이터를 미리 가시화한다.
 
         # 가시화 결과 저장할 폴더 준비
         self.epoch_summary_dir = os.path.join(
             self.output_path, 'epoch_summary_{}'.format(
                 self.stock_code))
+        # 가시화 파일은 output_path 에 epoch_summary_종목코드 로 저장된다.
+
         if not os.path.isdir(self.epoch_summary_dir):
             os.makedirs(self.epoch_summary_dir)
+            # 폴더가 존재하지 않으면 폴더 만들어준다.
         else:
             for f in os.listdir(self.epoch_summary_dir):
                 os.remove(os.path.join(self.epoch_summary_dir, f))
+                # 뭘 지우는거지?
 
         # 에이전트 초기 자본금 설정
         self.agent.set_balance(balance)
+        # --initial_balance 설정해면 이 초기금액이 달라짐.
 
         # 학습에 대한 정보 초기화
         max_portfolio_value = 0
@@ -371,6 +417,7 @@ class ReinforcementLearner:
 
         # 학습 반복
         for epoch in range(num_epoches):
+            # --epochs 10000 하면 이게 10000번 시행됨.
             time_start_epoch = time.time()
 
             # step 샘플을 만들기 위한 큐
@@ -383,9 +430,13 @@ class ReinforcementLearner:
             if learning:
                 epsilon = start_epsilon \
                     * (1. - float(epoch) / (num_epoches - 1))
+                # 학습이 이루어졌을 경우 입실론 값을 감소시킨다.
+                # 처음 입실론 값에서 (1-2)/10000, (1-3)/10000, ... (1-100)/10000 이 감소된다.
                 self.agent.reset_exploration()
+                # 탐험값을 리셋한다.
             else:
                 epsilon = start_epsilon
+                # 학습이 진행되지 않았으면 epsilon 을 그대로 냅둔다.
                 self.agent.reset_exploration(alpha=0)
 
             while True:
@@ -393,57 +444,98 @@ class ReinforcementLearner:
                 next_sample = self.build_sample()
                 if next_sample is None:
                     break
+                    # 샘플이 없으면 아예 학습이 진행되지 않도록
+                    # break 한다.
 
                 # num_steps만큼 샘플 저장
                 q_sample.append(next_sample)
+                # 다음 샘플 더한다.
                 if len(q_sample) < self.num_steps:
                     continue
+                # 샘플의 갯수가 num_steps 보다 작을 경우
+                # 다시 처음부터 실행 -> q_sample 이 num_steps 개 만큼 쌓였을 때,
+                # 그때 되서야 학습이 진행되도록 하기 위함.
 
                 # 가치, 정책 신경망 예측
                 pred_value = None
                 pred_policy = None
                 if self.value_network is not None:
+                    # 가치신경망이 존재할 경우 (없는 경우 -> monkey)
                     pred_value = self.value_network.predict(
                         list(q_sample))
+                    # q_sample 데이터를 가치신경망에 넣어서
+                    # 나온 기대가치값을 pred_value에 담는다.
                 if self.policy_network is not None:
+                    # 정책신경망이 존재할 경우
                     pred_policy = self.policy_network.predict(
                         list(q_sample))
+                    # 마찬가지로 q_sample 데이터를 정책신경망에 넣어서
+                    # 나온 기대가치값을 pred_policy에 담는다.
                 
                 # 신경망 또는 탐험에 의한 행동 결정
                 action, confidence, exploration = \
                     self.agent.decide_action(
                         pred_value, pred_policy, epsilon)
+                # 에이전트가 가치값과 정책값을 기반으로 행동을 결정한다.
+                # 그리고 어떤 행동인지, (매수:0, 매도:1 아마?)
+                # 그리고 자신감은 얼마나 뿜뿜한지 (0~1 사이)
+                # exploration 은 boolean, True 또는 False
+                # 탐험일 경우 True, 신경망이 자기가 선택한 경우는 False
 
                 # 결정한 행동을 수행하고 즉시 보상과 지연 보상 획득
                 immediate_reward, delayed_reward = \
                     self.agent.act(action, confidence)
+                # 지연보상에 도달했을 경우 즉시 보상은 0.
+                # 지연보상에 도달하지 않았을 경우 저번 에포크에서의 즉시보상 넘겨받음.
 
                 # 행동 및 행동에 대한 결과를 기억
                 self.memory_sample.append(list(q_sample))
+                # q_sample 은 num_steps 만큼 축적된 경험들에 대한 데이터.
                 self.memory_action.append(action)
+                # 그리고 그 경험들에 대한 데이터의 '결과' 로 action 1개 값이 선택되고,
+                # 그걸 q_sample 안에 넣는다. [[그 상황에 대한 데이터들],1(매수를 선택했다)]
                 self.memory_reward.append(immediate_reward)
+                # 그 상황에서 얻은 즉시 보상도 넣는다.
+                # [[그 상황에 대한 데이터들],1(매수했다),20(20의 보상을 얻었다)]
                 if self.value_network is not None:
                     self.memory_value.append(pred_value)
+                    # 신경망이 존재할 경우 예측 가치값을 넣는다.
+                    # [[상황데이터들],행동,보상,기대 가치값]
                 if self.policy_network is not None:
                     self.memory_policy.append(pred_policy)
+                    # [[상황데이터들],행동,보상,기대가치값, 정책값(그 행동에 대한 확률)]
+                    # 정책값은 [0.37, 0.63] 이런식으로 되어 있고,
+                    # 1번째 인덱스 값을 선택했으므로 0.63이 담기는거지.
                 self.memory_pv.append(self.agent.portfolio_value)
+                # 그리고 pv, 포트폴리오 가치를 담는 리스트에 에이전트의 포트폴리오 가치를 담는다.
                 self.memory_num_stocks.append(self.agent.num_stocks)
+                # 보유 주식수를 담는 리스트에 에이전트가 가진 보유 주식수 값을 담는다.
                 if exploration:
+                    # 만약 탐험을 하는 경우라면
                     self.memory_exp_idx.append(self.training_data_idx)
+                    # 탐험을 한 경우를 저장하기 위해
+                    # 탐험 인덱스 리스트에 탐험을 했을 때의 인덱스를 담아준다.
 
                 # 반복에 대한 정보 갱신
                 self.batch_size += 1
                 self.itr_cnt += 1
+                # 반복 횟수
                 self.exploration_cnt += 1 if exploration else 0
+                # 탐험을 했을 경우 탐험cnt 에 1을 더한다.
 
                 # 지연 보상 발생된 경우 미니 배치 학습
                 if learning and (delayed_reward != 0):
+                    # 학습이 진행되고, 지연보상이 0이 아닌 경우
                     self.fit(delayed_reward, discount_factor)
+                    # 지연보상과 학습율로 배치학습을 시키고 가중치를 갱신시킨다.
+                    # loss를 구하고, 보상에 근거해 경사하강법 시행한다.
 
             # 에포크 종료 후 학습
             if learning:
                 self.fit(
                     self.agent.profitloss, discount_factor, full=True)
+                # 에포크수 다 끝났을 경우엔,
+                # 에이전트의 누적 손익/손실율과 할인율을 통해 다시 또 학습시킨다.
 
             # 에포크 관련 정보 로그 기록
             num_epoches_digit = len(str(num_epoches))
@@ -462,9 +554,13 @@ class ReinforcementLearner:
                     self.agent.num_hold, self.agent.num_stocks, 
                     self.agent.portfolio_value, self.learning_cnt, 
                     self.loss, elapsed_time_epoch))
-
+            # Expl : Exploration Count 몇번 탐험했냐
+            # LC : Learning Count 몇번 배웠냐
+            # elapsed_time_epoch : 몇번까지 에포크수 돌렸는지.
+            
             # 에포크 관련 정보 가시화
             self.visualize(epoch_str, num_epoches, epsilon)
+            # 가시화 후 사진 output 폴더에 저장한다.
 
             # 학습 관련 정보 갱신
             max_portfolio_value = max(
@@ -475,6 +571,7 @@ class ReinforcementLearner:
         # 종료 시간
         time_end = time.time()
         elapsed_time = time_end - time_start
+        # 총 학습 시간 : elapsed_time
 
         # 학습 관련 정보 로그 기록
         with self.lock:
@@ -487,6 +584,8 @@ class ReinforcementLearner:
     # 여기 가치 신경망과 정책 신경망 저장 위치 잘 공부하기.
     # 아마 value_network_name 이랑 policy_network_name 이 이 위치로 지정되지 않나 싶은데.
     # network_path 가 어떻게 들어가는지 잘 파악해서 정리해놓기.
+
+    # 모델 저장하는 함수.
     def save_models(self):
         if self.value_network is not None and \
                 self.value_network_path is not None:
@@ -494,8 +593,12 @@ class ReinforcementLearner:
         if self.policy_network is not None and \
                 self.policy_network_path is not None:
             self.policy_network.save_model(self.policy_network_path)
+    # value_network_path 를 지정했을 경우에만
+    # 학습 후의 신경망 모델들을 저장한다.
 
+    # 즉 신경망 이름 지정 안하면 아예 저장이 안되네.
 
+# Deep Q Network 학습기 - DQN 은 가치신경망만 사용한다.
 class DQNLearner(ReinforcementLearner):
     def __init__(self, *args, value_network_path=None, **kwargs):
         super().__init__(*args, **kwargs)

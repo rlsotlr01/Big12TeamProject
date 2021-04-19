@@ -12,12 +12,24 @@ import data_manager
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument('--stock_code', nargs='+')
-    parser.add_argument('--ver', choices=['v1', 'v2'], default='v2')
+    parser.add_argument('--ver', choices=['v1', 'v2', 'v3'], default='v2')
     parser.add_argument('--rl_method', 
         choices=['dqn', 'pg', 'ac', 'a2c', 'a3c', 'monkey'])
+    # dqn : 땡(우세) 무동작 -> 진짜 단순한 강화학습장치 -> 가치만 보고 움직이는 애. -> 본능에 가까운 침팬지
+    # pg : [0.5 0.5] -> [0.6 0.4] -> [0.7 0.3] -> 동물보단 똑똑한애.
+    # ac : actor-critic actor - pg, critic - dqn -> 조금 더 똑똑한 애. 사람
+    # a2c : actor-critic 보단 조금 더 똑똑한 애. 하지만 생각이 많아.
+    # a3c : 나루토 그림자 분신술
+    # monkey -> 아무렇게나.
+
     parser.add_argument('--net', 
         choices=['dnn', 'lstm', 'cnn', 'monkey'], default='dnn')
-    parser.add_argument('--num_steps', type=int, default=1)
+    # 신경망 쓸건지.
+    # dnn -> 동물 -> 단순한 신경망
+    # lstm -> 사람 -> LSTM도 괜찮은데 CNN을 쓰는것도 좋은 방법.
+    # cnn -> 합성곱 신경망 -> 여러 다양한 컬럼들을 배울 수 있다. -> 여러 종목
+
+    parser.add_argument('--num_steps', type=int, default=1) # 몇일을 배워서 그 다음날을 예측할 것이냐.
     parser.add_argument('--lr', type=float, default=0.01)
     parser.add_argument('--discount_factor', type=float, default=0.9)
     parser.add_argument('--start_epsilon', type=float, default=0)
@@ -25,13 +37,14 @@ if __name__ == '__main__':
     parser.add_argument('--num_epoches', type=int, default=100)
     parser.add_argument('--delayed_reward_threshold', 
         type=float, default=0.05)
+    # --delayed_reward_threshold 0.03 +0.03 -0.03
     parser.add_argument('--backend', 
         choices=['tensorflow', 'plaidml'], default='tensorflow')
-    parser.add_argument('--output_name', default=utils.get_time_str())
-    parser.add_argument('--value_network_name')
-    parser.add_argument('--policy_network_name')
-    parser.add_argument('--reuse_models', action='store_true')
-    parser.add_argument('--learning', action='store_true')
+    parser.add_argument('--output_name', default=utils.get_time_str()) # 얘 꼭 지정
+    parser.add_argument('--value_network_name') # 얘 꼭 지정
+    parser.add_argument('--policy_network_name') # 얘 꼭 지정
+    parser.add_argument('--reuse_models', action='store_true') # 재사용할거면 얘를 True
+    parser.add_argument('--learning', action='store_true') # True : 학습, False : 시뮬레이션
     parser.add_argument('--start_date', default='20160104')
     parser.add_argument('--end_date', default='20191230')
     args = parser.parse_args()
@@ -93,10 +106,23 @@ if __name__ == '__main__':
 
     for stock_code in args.stock_code:
         # 차트 데이터, 학습 데이터 준비
-        chart_data, training_data = data_manager.load_data(
-            os.path.join(settings.BASE_DIR, 
-            'data/{}/{}.csv'.format(args.ver, stock_code)), 
-            args.start_date, args.end_date, ver=args.ver)
+        if args.ver != 'v3':
+            chart_data, training_data = data_manager.load_data(
+                os.path.join(settings.BASE_DIR,
+                'data/{}/{}.csv'.format(args.ver, stock_code)),
+                args.start_date, args.end_date, ver=args.ver)
+        else: # args.ver == 'v3' 일 경우
+            chart_data1, training_data1, \
+                chart_data2, training_data2,\
+                chart_data3, training_data3 = data_manager.load_data(
+                os.path.join(settings.BASE_DIR,
+                             'data/{}/{}.csv'.format(args.ver, stock_code)),
+                args.start_date, args.end_date, ver=args.ver)
+        # 3개 엑셀 받아들이도록 변경. -> load_data 를 수정해야댐.
+        #  chart_data1, training_data1, chart_data2, training_data2, ...
+        #  'data/{}/{}f.csv', 'data/{}/{}g.csv', 'data/{}/{}t.csv'
+        # 튜플형식으로 묶든.
+        #
         
         # 최소/최대 투자 단위 설정
         min_trading_unit = max(int(100000 / chart_data.iloc[-1]['close']), 1)
@@ -111,6 +137,9 @@ if __name__ == '__main__':
         # 강화학습 시작
         learner = None
         if args.rl_method != 'a3c':
+            # if v3 -> common_params.update 3번 돌리면 되나? X ->
+            # [chart_data1, chart_data2, chart_data3]
+            # else
             common_params.update({'stock_code': stock_code,
                 'chart_data': chart_data, 
                 'training_data': training_data,

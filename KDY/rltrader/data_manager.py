@@ -44,9 +44,19 @@ COLUMNS_TRAINING_DATA_V2 = [
     'bond_k3y_ma5_ratio', 'bond_k3y_ma20_ratio', 
     'bond_k3y_ma60_ratio', 'bond_k3y_ma120_ratio'
 ]
-COLUMNS_TRAINING_DATA_V3T = [] # (코드수정) 여기 코드 넣어줘야 함.
-COLUMNS_TRAINING_DATA_V3F = [] # (코드수정) 여기 코드 넣어줘야 함.
-COLUMNS_TRAINING_DATA_V3G = [] # (코드수정) 여기 코드 넣어줘야 함.
+COLUMNS_TRAINING_DATA_V3T = [
+    # V3T의 컬럼들
+] # (코드수정) 여기 코드 넣어줘야 함.
+COLUMNS_TRAINING_DATA_V3F = [
+    'roe','roa','eps','bps'
+    ,'sales','margin','net_margin'
+    ,'dps','debt_ratio','run_money'
+    ,'invest_money','financial_money'
+]
+# (코드수정) 여기 코드 넣어줘야 함.
+COLUMNS_TRAINING_DATA_V3G = [
+    # V3G의 컬럼들
+] # (코드수정) 여기 코드 넣어줘야 함.
 
 def preprocess(data, ver='v1'):
     windows = [5, 10, 20, 60, 120]
@@ -61,7 +71,7 @@ def preprocess(data, ver='v1'):
         data['volume_ma%d_ratio' % window] = \
             (data['volume'] - data['volume_ma%d' % window]) \
             / data['volume_ma%d' % window]
-            
+
         if ver == 'v1.rich':
             data['inst_ma{}'.format(window)] = \
                 data['close'].rolling(window).mean()
@@ -74,6 +84,11 @@ def preprocess(data, ver='v1'):
                 (data['volume'] - data['frgn_ma%d' % window]) \
                 / data['frgn_ma%d' % window]
 
+        # v3 버전 rolling 처리해줘야 함.
+        # 과거랑 지금이랑 비슷하게 바꿔줌.
+
+        # 데이터 전처리
+        #           -> 각각의 SS / MMscaler
     data['open_lastclose_ratio'] = np.zeros(len(data))
     data.loc[1:, 'open_lastclose_ratio'] = \
         (data['open'][1:].values - data['close'][:-1].values) \
@@ -112,10 +127,19 @@ def preprocess(data, ver='v1'):
     return data
 
 
+def preprocess(data, ver='v3'):
+    # v3 버전용 전처리 함수.
+    windows = [5, 10, 20, 60, 120]
+    # 어떻게 전처리 할 지는 나중에 상의해서 해보기.
+    # (코드수정)
+    return data
+
+
 def load_data(fpath, date_from, date_to, ver='v2'):
     header = None if ver == 'v1' else 0
     data = pd.read_csv(fpath, thousands=',', header=header, 
         converters={'date': lambda x: str(x)})
+    # 버전 3 용도로는 pd.read_csv 를 3번. f,g,t
 
     if ver == 'v1':
         data.columns = ['date', 'open', 'high', 'low', 'close', 'volume']
@@ -123,7 +147,7 @@ def load_data(fpath, date_from, date_to, ver='v2'):
     # 날짜 오름차순 정렬
     data = data.sort_values(by='date').reset_index()
 
-    # 데이터 전처리
+    # 데이터 전처리 -> v3 버전 따로.
     data = preprocess(data)
     
     # 기간 필터링
@@ -148,6 +172,11 @@ def load_data(fpath, date_from, date_to, ver='v2'):
     # 여기 v3 넣어주고,
     # 필요한 데이터들 나눠주기.
     elif ver == 'v3':
+        # 전처리 코드 넣고, -> preprocess preprocess(data)
+        # chart_data1, ... 이건 어떻게 넣어줄까?
+        # 데이터 3개 컬럼 training_data 각각 넣어주고,
+        # return (chart_data1, training_data1, chart_data2, training_data2, chart_data3, training_data3)
+        return (chart_data1, training_data1, chart_data2, training_data2, chart_data3, training_data3)
         pass # (코드수정) 여기 코드 넣어줘야 함.
 #        data.loc[:, ['per', 'pbr', 'roe']] = \
 #            data[['per', 'pbr', 'roe']].apply(lambda x: x / 100) 이런 방식으로 scaling 해주면 될 것 같은데?
