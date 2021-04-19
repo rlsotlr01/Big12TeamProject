@@ -129,6 +129,7 @@ if __name__ == '__main__':
         # 최소/최대 투자 단위 설정
         min_trading_unit = max(int(100000 / chart_data.iloc[-1]['close']), 1)
         max_trading_unit = max(int(1000000 / chart_data.iloc[-1]['close']), 1)
+        # 이부분 v3의 경우 문제가 되지 않을 것인가? 문제 안되겠지?
 
         # 공통 파라미터 설정
         common_params = {'rl_method': args.rl_method, 
@@ -186,6 +187,7 @@ if __name__ == '__main__':
             for i in range(len(list_chart_data)):
                 list_min_trading_unit.append(min_trading_unit)
                 list_max_trading_unit.append(max_trading_unit)
+                # 이부분 문제 없지? -> 내 생각엔 문제 없을 듯.
 
     if args.rl_method == 'a3c' and args.ver != 'v3':
         learner = A3CLearner(**{
