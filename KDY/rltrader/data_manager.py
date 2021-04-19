@@ -48,10 +48,10 @@ COLUMNS_TRAINING_DATA_V3T = [
     # V3T의 컬럼들
 ] # (코드수정) 여기 코드 넣어줘야 함.
 COLUMNS_TRAINING_DATA_V3F = [
-    'roe','roa','eps','bps'
-    ,'sales','margin','net_margin'
-    ,'dps','debt_ratio','run_money'
-    ,'invest_money','financial_money'
+    'roe' ,'roa' ,'eps' ,'bps'
+    , 'sales', 'margin', 'net_margin'
+    , 'dps', 'debt_ratio', 'run_money'
+    , 'invest_money', 'financial_money'
 ]
 # (코드수정) 여기 코드 넣어줘야 함.
 COLUMNS_TRAINING_DATA_V3G = [
@@ -203,7 +203,7 @@ def load_data(fpath, date_from, date_to, ver='v2'):
         training_data3G = data[2][COLUMNS_TRAINING_DATA_V3G]
         list_chart_data = [chart_data1, chart_data2, chart_data3]
         list_training_data = [training_data1T, training_data2F, training_data3G]
-        return (list_chart_data,list_training_data)
+        return (list_chart_data, list_training_data)
         # list_chart_data 와 list_training_data 를 돌려준다.
 #        data.loc[:, ['per', 'pbr', 'roe']] = \
 #            data[['per', 'pbr', 'roe']].apply(lambda x: x / 100) 이런 방식으로 scaling 해주면 될 것 같은데?

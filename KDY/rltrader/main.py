@@ -107,15 +107,14 @@ if __name__ == '__main__':
     for stock_code in args.stock_code:
         # 차트 데이터, 학습 데이터 준비
         if args.ver != 'v3':
-            list_chart_data, list_training_data = data_manager.load_data(
+            chart_data, training_data = data_manager.load_data(
                 os.path.join(settings.BASE_DIR,
                 'data/{}/{}.csv'.format(args.ver, stock_code)),
                 args.start_date, args.end_date, ver=args.ver)
 
         else: # args.ver == 'v3' 일 경우
-            chart_data1, training_data1, \
-                chart_data2, training_data2,\
-                chart_data3, training_data3 = data_manager.load_data(
+            list_chart_data, list_training_data \
+                = data_manager.load_data(
                 os.path.join(settings.BASE_DIR,
                              'data/{}/{}'.format(args.ver, stock_code)),
                 args.start_date, args.end_date, ver=args.ver)
@@ -176,12 +175,17 @@ if __name__ == '__main__':
                     start_epsilon=args.start_epsilon,
                     learning=args.learning)
                 learner.save_models()
-        else:
+        elif args.rl_method =='a3c' and args.ver != 'v3':
             list_stock_code.append(stock_code)
-            list_chart_data.append(chart_data)
-            list_training_data.append(training_data)
+            list_chart_data.append(list_chart_data)
+            list_training_data.append(list_training_data)
             list_min_trading_unit.append(min_trading_unit)
             list_max_trading_unit.append(max_trading_unit)
+        else: # args.rl_method 가 a3c 이고 args.ver 가 v3일 경우
+            stock_code = stock_code
+            for i in range(len(list_chart_data)):
+                list_min_trading_unit.append(min_trading_unit)
+                list_max_trading_unit.append(max_trading_unit)
 
     if args.rl_method == 'a3c' and args.ver != 'v3':
         learner = A3CLearner(**{
