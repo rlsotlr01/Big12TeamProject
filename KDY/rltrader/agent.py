@@ -216,9 +216,8 @@ class Agent:
             else:
                 # exploration_base 이외의 확률로는
                 action = np.random.randint(self.NUM_ACTIONS - 1) + 1
-                # 매수 또는 매도 중 하나를 무작위로 탐색한다.
-
-                # 이렇게 하면 매수를 하는 경우가 더 높아지게 된다.
+                # 매도만한다. 왜이렇게 짜놓은거지?
+                # np.random.randint(2-1)+1
 
         else:
             # epsilon 이외의 확률일 때 (무작위가 아닌 신경망의 선택)

@@ -20,8 +20,7 @@ class Environment:
 
     # 에이전트의 상태를 불러오는 get 함수이다.
     def observe(self):
-        # 만약 차트데이터의 길이가 인덱스+1 보다 클 경우
-        # (Out of index 방지)
+        # 현재 위치가 차트의 끝이 아니면
         if len(self.chart_data) > self.idx + 1:
             # 인덱스에 +1 한다
             self.idx += 1
@@ -29,8 +28,7 @@ class Environment:
             self.observation = self.chart_data.iloc[self.idx]
             # 상태를 리턴한다.
             return self.observation
-        # 만약 차트데이터 끝까지 다 했을 경우엔
-        # None 을 출력한다.
+        # 현재 위치가 차트 끝이면
         return None
 
     # 에이전트가 처한 상태에서의 주가 가격을 가져오는 get 함수
