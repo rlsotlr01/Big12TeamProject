@@ -56,7 +56,7 @@ if __name__ == '__main__':
         os.environ['KERAS_BACKEND'] = 'plaidml.keras.backend'
 
     # 출력 경로 설정
-    output_path = os.path.join(settings.BASE_DIR, 
+    output_path = os.path.join(settings.BASE_DIR,
         'output/{}_{}_{}'.format(args.output_name, args.rl_method, args.net))
     if not os.path.isdir(output_path):
         os.makedirs(output_path)
@@ -83,14 +83,14 @@ if __name__ == '__main__':
     value_network_path = ''
     policy_network_path = ''
     if args.value_network_name is not None:
-        value_network_path = os.path.join(settings.BASE_DIR, 
+        value_network_path = os.path.join(settings.BASE_DIR,
             'models/{}.h5'.format(args.value_network_name))
     else:
         value_network_path = os.path.join(
             output_path, '{}_{}_value_{}.h5'.format(
                 args.rl_method, args.net, args.output_name))
     if args.policy_network_name is not None:
-        policy_network_path = os.path.join(settings.BASE_DIR, 
+        policy_network_path = os.path.join(settings.BASE_DIR,
             'models/{}.h5'.format(args.policy_network_name))
     else:
         policy_network_path = os.path.join(
@@ -99,10 +99,12 @@ if __name__ == '__main__':
 
     common_params = {}
     list_stock_code = []
+    # list_stock_codes = []  # a3c 용도. -> 보류
     list_chart_data = []
     list_training_data = []
     list_min_trading_unit = []
     list_max_trading_unit = []
+    
 
     for stock_code in args.stock_code:
         # 차트 데이터, 학습 데이터 준비
@@ -183,11 +185,25 @@ if __name__ == '__main__':
             list_min_trading_unit.append(min_trading_unit)
             list_max_trading_unit.append(max_trading_unit)
         else: # args.rl_method 가 a3c 이고 args.ver 가 v3일 경우
-            stock_code = stock_code
+            list_stock_code = [stock_code, stock_code, stock_code]
+            # v3 하면 stock_code 하나만 넣을 수 있도록 해줘야 함.
+            # 만약 v3 할 때 여러개 돌리고 싶으면 이 코드를 수정해줘야 함.
+
+            # v3일 경우 stock_code 를 어떻게 넣어줘야 할까.
+            # 만약 [stock_code stock_code stock_code] 로 넣어주면
+            # A3C에 바로 적용할 수 있음.
+            # 하지만 만약 여러개 한꺼번에 돌릴 수 있도록 만들려면?
+            # 그 경우 [stock_code1, stock_code2, stock_code3] 로 해야 되는데,
+            # 그 경우는 A3C(learners 모듈 안에 있는거)를 수정해줘야 함.
+            list_chart_data = list_chart_data
+            list_training_data = list_training_data
+            # list_chart랑 list_training 은 아까 로드 했음.
             for i in range(len(list_chart_data)):
                 list_min_trading_unit.append(min_trading_unit)
                 list_max_trading_unit.append(max_trading_unit)
                 # 이부분 문제 없지? -> 내 생각엔 문제 없을 듯.
+            # 만약 a3c 여러개 돌리면 여기 모든 데이터들 다 list 의 list 로 만들어야 함.
+
 
     if args.rl_method == 'a3c' and args.ver != 'v3':
         learner = A3CLearner(**{
@@ -209,7 +225,7 @@ if __name__ == '__main__':
     if args.rl_method == 'a3c' and args.ver == 'v3':
         learner = A3CLearner(**{
             **common_params,
-            'stock_code': stock_code,
+            'list_stock_code': list_stock_code,
             'list_chart_data': list_chart_data,
             'list_training_data': list_training_data,
             'list_min_trading_unit': list_min_trading_unit,
@@ -222,3 +238,7 @@ if __name__ == '__main__':
                     start_epsilon=args.start_epsilon,
                     learning=args.learning)
         learner.save_models()
+
+        # 만약 여러개 돌리고 싶으면 여기 list의 list 를 for문 돌려줘야 하고,
+        # 거기다가 a3c 코드도 고쳐서 신경망 모델 여러개 저장되도록 해줘야 함.
+        # 너무 어려운데?
