@@ -107,22 +107,25 @@ if __name__ == '__main__':
     for stock_code in args.stock_code:
         # 차트 데이터, 학습 데이터 준비
         if args.ver != 'v3':
-            chart_data, training_data = data_manager.load_data(
+            list_chart_data, list_training_data = data_manager.load_data(
                 os.path.join(settings.BASE_DIR,
                 'data/{}/{}.csv'.format(args.ver, stock_code)),
                 args.start_date, args.end_date, ver=args.ver)
+
         else: # args.ver == 'v3' 일 경우
             chart_data1, training_data1, \
                 chart_data2, training_data2,\
                 chart_data3, training_data3 = data_manager.load_data(
                 os.path.join(settings.BASE_DIR,
-                             'data/{}/{}.csv'.format(args.ver, stock_code)),
+                             'data/{}/{}'.format(args.ver, stock_code)),
                 args.start_date, args.end_date, ver=args.ver)
+            # v3의 경우는 코드명까지만 넣어준다. 뒤에 .csv 안붙인다.
+
         # 3개 엑셀 받아들이도록 변경. -> load_data 를 수정해야댐.
         #  chart_data1, training_data1, chart_data2, training_data2, ...
         #  'data/{}/{}f.csv', 'data/{}/{}g.csv', 'data/{}/{}t.csv'
         # 튜플형식으로 묶든.
-        #
+        # load_data 수정 완료.
         
         # 최소/최대 투자 단위 설정
         min_trading_unit = max(int(100000 / chart_data.iloc[-1]['close']), 1)
@@ -180,7 +183,7 @@ if __name__ == '__main__':
             list_min_trading_unit.append(min_trading_unit)
             list_max_trading_unit.append(max_trading_unit)
 
-    if args.rl_method == 'a3c':
+    if args.rl_method == 'a3c' and args.ver != 'v3':
         learner = A3CLearner(**{
             **common_params, 
             'list_stock_code': list_stock_code, 
@@ -196,4 +199,20 @@ if __name__ == '__main__':
                     start_epsilon=args.start_epsilon,
                     learning=args.learning)
         learner.save_models()
-        
+
+    if args.rl_method == 'a3c' and args.ver == 'v3':
+        learner = A3CLearner(**{
+            **common_params,
+            'stock_code': stock_code,
+            'list_chart_data': list_chart_data,
+            'list_training_data': list_training_data,
+            'list_min_trading_unit': list_min_trading_unit,
+            'list_max_trading_unit': list_max_trading_unit,
+            'value_network_path': value_network_path,
+            'policy_network_path': policy_network_path})
+
+        learner.run(balance=args.balance, num_epoches=args.num_epoches,
+                    discount_factor=args.discount_factor,
+                    start_epsilon=args.start_epsilon,
+                    learning=args.learning)
+        learner.save_models()

@@ -80,13 +80,17 @@ class ReinforcementLearner:
         # 학습 데이터
         self.training_data = training_data
         # 학습 데이터를 넣어준다. (학습데이터와 차트데이터는 동일한 듯?)
+        # 트레이닝 데이터는 모든 컬럼이 담긴 데이터.
 
         self.sample = None
         self.training_data_idx = -1
         # 벡터 크기 = 학습 데이터 벡터 크기 + 에이전트 상태 크기
         self.num_features = self.agent.STATE_DIM
+        # STATE_DIM = 2 임 (포트폴리오 가치비율 & 주식 보유비율)
         if self.training_data is not None:
             self.num_features += self.training_data.shape[1]
+            # STATE_DIM = 2 임 (포트폴리오 가치비율 & 주식 보유비율)
+            # num_features = STATE_DIM + 데이터의 컬럼 갯수
         # 신경망 설정
         self.net = net
         # 신경망을 뭘로 할 지 넣어준다. (dnn, lstm, ...)
@@ -156,10 +160,16 @@ class ReinforcementLearner:
         elif self.net == 'lstm':
             # LSTM 을 사용한다.
             self.value_network = LSTMNetwork(
-                input_dim=self.num_features, 
-                output_dim=self.agent.NUM_ACTIONS, 
+                input_dim=self.num_features,
+                # num_features = 에이전트의 상태 2개 + 데이터의 컬럼 수
+                # 만약 데이터에 컬럼이 26개이면 num_features 는 28이 됨.
+                output_dim=self.agent.NUM_ACTIONS,
+                # 아웃풋으론 에이전트의 행동을 출력한다.
                 lr=self.lr, num_steps=self.num_steps, 
-                shared_network=shared_network, 
+                shared_network=shared_network,
+                # shared_network 디폴트 None
+                # None 으로 하게 되면 기본 탑재 신경망으로 만듬.
+                # 만약 신경망을 직접 지정하고 싶으면 shared_network 을 넣어줘야 함.
                 activation=activation, loss=loss)
             # lstm은 다른 곳과는 다르게 num_steps 변수가 들어감.
             # 연속된 데이터를 분석해야 하기 때문.
@@ -174,6 +184,8 @@ class ReinforcementLearner:
             # CNN 또한 num_steps 를 넣어준다.
         if self.reuse_models and \
             os.path.exists(self.value_network_path):
+            # value_network_path 에 해당 신경망 모델이 존재하는지 확인한다.
+            # 그리고 reuse_models(재사용여부)가 True 인지도 확인한다.
             # 기존에 있는 모델을 사용할 경우 -> value_network, policy_network 이름 지정.
             # 만약 불러올거면 reuse_models = True
                 self.value_network.load_model(
@@ -216,6 +228,8 @@ class ReinforcementLearner:
     def reset(self):
         self.sample = None
         self.training_data_idx = -1
+        # 시작지점 -1으로 지정. -> 처음부터 읽도록
+
         # 환경 초기화
         self.environment.reset()
         # 에이전트 초기화
@@ -240,12 +254,18 @@ class ReinforcementLearner:
         self.learning_cnt = 0
 
     # 환경 객체에서 샘플을 획득하는 함수
+    # (보상을 얻을때까지의 데이터들을 축적하기 위함)
     def build_sample(self):
         self.environment.observe()
+        # 에이전트의 상태를 불러오는 get 함수
         if len(self.training_data) > self.training_data_idx + 1:
+            # 훈련데이터 읽는 지점이 전체 훈련데이터 크기보단 작도록 해야함.
             self.training_data_idx += 1
             self.sample = self.training_data.iloc[
                 self.training_data_idx].tolist()
+            # 샘플을 추출한다.
+            # 샘플엔 데이터의 컬럼들을 모두 넣고,
+            # 아래에 에이전트의 상태도 넣어준다.
             self.sample.extend(self.agent.get_states())
             # append 와 extend 의 차이.
             # [4,5]를 append 하면 [1,2,3,[4,5]] 이렇게 되지만,
