@@ -447,14 +447,14 @@ class ReinforcementLearner:
             self.reset()
 
             # 학습을 진행할 수록 탐험 비율 감소
-            if learning:
+            if learning: # learning = True 면 학습을 실행함. 그리고 e값도 줄어듬.
                 epsilon = start_epsilon \
                     * (1. - float(epoch) / (num_epoches - 1))
                 # 학습이 이루어졌을 경우 입실론 값을 감소시킨다.
                 # 처음 입실론 값에서 (1-2)/10000, (1-3)/10000, ... (1-100)/10000 이 감소된다.
                 self.agent.reset_exploration()
                 # 탐험값을 리셋한다.
-            else:
+            else: # learning = False 면 시뮬레이션만. 동시에 e값도 감소가 되지 않음.
                 epsilon = start_epsilon
                 # 학습이 진행되지 않았으면 epsilon 을 그대로 냅둔다.
                 self.agent.reset_exploration(alpha=0)
@@ -549,8 +549,10 @@ class ReinforcementLearner:
                     self.fit(delayed_reward, discount_factor)
                     # 지연보상과 학습율로 배치학습을 시키고 가중치를 갱신시킨다.
                     # loss를 구하고, 보상에 근거해 경사하강법 시행한다.
+                # learning 이 True 일 경우에만 fit이 일어난다.
+                # learning 이 False 면 fit 안일어남. -> 학습안됨.
 
-            # 에포크 종료 후 학습
+            # 에포크 종료 후 학습 (learning = True 일 경우만 학습진행)
             if learning:
                 self.fit(
                     self.agent.profitloss, discount_factor, full=True)
@@ -794,6 +796,8 @@ class A3CLearner(ReinforcementLearner):
         assert len(list_training_data) > 0
         super().__init__(*args, **kwargs)
         self.num_features += list_training_data[0].shape[1]
+        # 세가지 다 같은 input_size 여야 되고,
+        # 같은 종류여야 되네...
 
         # 공유 신경망 생성
         self.shared_network = Network.get_shared_network(
@@ -809,6 +813,7 @@ class A3CLearner(ReinforcementLearner):
         # A2CLearner 생성
         self.learners = []
         # stock_code 를.... 어떻게 넣어줘야 할까.
+
 
         #if args.ver == 'v3':
         #    pass # v3로 선택하면 stock_code 를 어떻게 넣어줘야 할까
@@ -833,7 +838,8 @@ class A3CLearner(ReinforcementLearner):
         self, num_epoches=100, balance=10000000,
         discount_factor=0.9, start_epsilon=0.5, learning=True):
         threads = []
-        for learner in self.learners:
+        for learner in self.learners: # learners 는 learner 여러개 들어 있는 리스트.
+            # 쓰레드를 통해 여러 학습기가 동시에 돌아간다.
             threads.append(threading.Thread(
                 target=learner.run, daemon=True, kwargs={
                 'num_epoches': num_epoches, 'balance': balance,

@@ -1,3 +1,8 @@
+# https://www.google.com/search?q=%EB%A9%80%ED%8B%B0%EC%97%90%EC%9D%B4%EC%A0%84%ED%8A%B8+%EA%B0%95%ED%99%94%ED%95%99%EC%8A%B5&ei=c099YNWcD4y9mAXwpr2ICg&oq=%EB%A9%80%ED%8B%B0%EC%97%90%EC%9D%B4%EC%A0%84%ED%8A%B8+%EA%B0%95%ED%99%94%ED%95%99%EC%8A%B5&gs_lcp=Cgdnd3Mtd2l6EAMyAggAOgUIABCwAzoJCAAQsAMQBxAeUNUHWMkQYI0RaANwAHgCgAF4iAHvCJIBBDEyLjGYAQCgAQGqAQdnd3Mtd2l6yAEFwAEB&sclient=gws-wiz&ved=0ahUKEwiVosGsgYrwAhWMHqYKHXBTD6EQ4dUDCA4&uact=5
+# 멀티에이전트 기존에 생각한 아이디어.
+# 신경망 앙상블이 아니라, 에이전트가 멀티인 것.
+# 잘 생각해보기.
+
 import os
 import sys
 import logging
@@ -83,6 +88,7 @@ if __name__ == '__main__':
     value_network_path = ''
     policy_network_path = ''
     if args.value_network_name is not None:
+        # value_network_name 을 지정해야 불러옴.
         value_network_path = os.path.join(settings.BASE_DIR,
             'models/{}.h5'.format(args.value_network_name))
     else:
@@ -118,7 +124,7 @@ if __name__ == '__main__':
             list_chart_data, list_training_data \
                 = data_manager.load_data(
                 os.path.join(settings.BASE_DIR,
-                             'data/{}/{}'.format(args.ver, stock_code)),
+                             'data/{}/{}.csv'.format(args.ver, stock_code)),
                 args.start_date, args.end_date, ver=args.ver)
             # v3의 경우는 코드명까지만 넣어준다. 뒤에 .csv 안붙인다.
 
@@ -178,7 +184,7 @@ if __name__ == '__main__':
                     start_epsilon=args.start_epsilon,
                     learning=args.learning)
                 learner.save_models()
-        elif args.rl_method =='a3c' and args.ver != 'v3':
+        elif args.rl_method =='a3c' and args.ver != 'v3': # 얘 그대로 써도 되고,
             list_stock_code.append(stock_code)
             list_chart_data.append(list_chart_data)
             list_training_data.append(list_training_data)
@@ -242,3 +248,10 @@ if __name__ == '__main__':
         # 만약 여러개 돌리고 싶으면 여기 list의 list 를 for문 돌려줘야 하고,
         # 거기다가 a3c 코드도 고쳐서 신경망 모델 여러개 저장되도록 해줘야 함.
         # 너무 어려운데?
+
+        # 가져와서 예측할 땐, learners.init_value_network 로 가치신경망 탑재하고,
+        # learners.init_policy_network 로 정책신경망 탑재하고,
+        # 그다음 predict 하면 될 것 같은데?
+        # 이후 데이터가 쌓일 때마다, 학습은 위 해당 코딩 그대로 해서 학습시키고.
+        # 그 다음날 다시 predict 해서 결과값 출력.
+        # 장 끝나면 다시 또 학습.

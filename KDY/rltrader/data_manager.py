@@ -142,15 +142,17 @@ def load_data(fpath, date_from, date_to, ver='v2'):
             converters={'date': lambda x: str(x)})
     # 버전 3 용도로는 pd.read_csv 를 3번. f,g,t
     else:
-        fpath1 = fpath+'t.csv'
-        fpath2 = fpath+'f.csv'
-        fpath3 = fpath+'g.csv'
+        fpath1 = fpath.replace('.csv','t.csv')
+        fpath2 = fpath.replace('.csv','f.csv')
+        fpath3 = fpath.replace('.csv','g.csv')
         data1 = pd.read_csv(fpath1, thousands=',', header=header,
                            converters={'date': lambda x: str(x)})
         data2 = pd.read_csv(fpath2, thousands=',', header=header,
                             converters={'date': lambda x: str(x)})
         data3 = pd.read_csv(fpath3, thousands=',', header=header,
                             converters={'date': lambda x: str(x)})
+        # data1, data2, data3 pd.concat(axis=1)
+        # 해서 한데이터로 합쳐야되네.
         data = [data1, data2, data3]
 
     if ver == 'v1':
