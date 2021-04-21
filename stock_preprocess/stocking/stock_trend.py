@@ -60,6 +60,7 @@ def select_cols_for_monkey(code):
 
     return col_processed_data
 
+# 표준편차 계산
 def cal_std(code):
     filepath = './merged_data/processed_csvfiles'
     result_path = './merged_data/trend_csvfiles'
@@ -86,6 +87,7 @@ def cal_std(code):
 
     return trend_data
 
+# ma 계산
 def cal_ma(code):
     filepath = './merged_data/trend_csvfiles'
 
@@ -156,6 +158,7 @@ def cal_RSI(code, days=14):
 
     return trend_data
 
+# 볼린져밴드 계산
 def cal_BB(code):
     filepath = './merged_data/trend_csvfiles'
 
@@ -171,6 +174,7 @@ def cal_BB(code):
 
     return trend_data
 
+# 스토캐스틱 계산
 def cal_sto(code, n=12, m=5, t=5):
     filepath = './merged_data/trend_csvfiles'
 
@@ -196,6 +200,7 @@ def cal_sto(code, n=12, m=5, t=5):
 
     return trend_data
 
+# 날짜 20110401~20210101 잘라내기
 def cut_date(code):
     filepath = './merged_data/trend_csvfiles'
     result_path = './merged_data/quarter_csvfiles'
