@@ -48,10 +48,10 @@ COLUMNS_TRAINING_DATA_V3T = [
     # V3T의 컬럼들
 ] # (코드수정) 여기 코드 넣어줘야 함.
 COLUMNS_TRAINING_DATA_V3F = [
-    'roe','roa','eps','bps'
-    ,'sales','margin','net_margin'
-    ,'dps','debt_ratio','run_money'
-    ,'invest_money','financial_money'
+    'roe' ,'roa' ,'eps' ,'bps'
+    , 'sales', 'margin', 'net_margin'
+    , 'dps', 'debt_ratio', 'run_money'
+    , 'invest_money', 'financial_money'
 ]
 # (코드수정) 여기 코드 넣어줘야 함.
 COLUMNS_TRAINING_DATA_V3G = [
@@ -137,15 +137,34 @@ def preprocess(data, ver='v3'):
 
 def load_data(fpath, date_from, date_to, ver='v2'):
     header = None if ver == 'v1' else 0
-    data = pd.read_csv(fpath, thousands=',', header=header, 
-        converters={'date': lambda x: str(x)})
+    if ver =='v1' or ver == 'v2':
+        data = pd.read_csv(fpath, thousands=',', header=header,
+            converters={'date': lambda x: str(x)})
     # 버전 3 용도로는 pd.read_csv 를 3번. f,g,t
+    else:
+        fpath1 = fpath.replace('.csv','t.csv')
+        fpath2 = fpath.replace('.csv','f.csv')
+        fpath3 = fpath.replace('.csv','g.csv')
+        data1 = pd.read_csv(fpath1, thousands=',', header=header,
+                           converters={'date': lambda x: str(x)})
+        data2 = pd.read_csv(fpath2, thousands=',', header=header,
+                            converters={'date': lambda x: str(x)})
+        data3 = pd.read_csv(fpath3, thousands=',', header=header,
+                            converters={'date': lambda x: str(x)})
+        # data1, data2, data3 pd.concat(axis=1)
+        # 해서 한데이터로 합쳐야되네.
+        data = [data1, data2, data3]
 
     if ver == 'v1':
         data.columns = ['date', 'open', 'high', 'low', 'close', 'volume']
 
     # 날짜 오름차순 정렬
-    data = data.sort_values(by='date').reset_index()
+    if ver == 'v1' or ver=='v2':
+        data = data.sort_values(by='date').reset_index()
+    else: # v3 일 경우 data 가 리스트이기 때문에 셋 다 날짜별로 정렬해준다.
+        data = [dat.sort_values(by='date').reset_index() for dat in data]
+
+
 
     # 데이터 전처리 -> v3 버전 따로.
     data = preprocess(data)
@@ -156,7 +175,12 @@ def load_data(fpath, date_from, date_to, ver='v2'):
     data = data.dropna()
 
     # 차트 데이터 분리
-    chart_data = data[COLUMNS_CHART_DATA]
+    if ver != 'v3':
+        chart_data = data[COLUMNS_CHART_DATA]
+    else: # 'v3' 버전일 경우
+        chart_data1 = data[0][COLUMNS_CHART_DATA]
+        chart_data2 = data[1][COLUMNS_CHART_DATA]
+        chart_data3 = data[2][COLUMNS_CHART_DATA]
 
     # 학습 데이터 분리
     training_data = None
@@ -176,8 +200,13 @@ def load_data(fpath, date_from, date_to, ver='v2'):
         # chart_data1, ... 이건 어떻게 넣어줄까?
         # 데이터 3개 컬럼 training_data 각각 넣어주고,
         # return (chart_data1, training_data1, chart_data2, training_data2, chart_data3, training_data3)
-        return (chart_data1, training_data1, chart_data2, training_data2, chart_data3, training_data3)
-        pass # (코드수정) 여기 코드 넣어줘야 함.
+        training_data1T = data[0][COLUMNS_TRAINING_DATA_V3T] # 리스트 형식이면 이렇게 넣어줘야 할까?
+        training_data2F = data[1][COLUMNS_TRAINING_DATA_V3F]
+        training_data3G = data[2][COLUMNS_TRAINING_DATA_V3G]
+        list_chart_data = [chart_data1, chart_data2, chart_data3]
+        list_training_data = [training_data1T, training_data2F, training_data3G]
+        return (list_chart_data, list_training_data)
+        # list_chart_data 와 list_training_data 를 돌려준다.
 #        data.loc[:, ['per', 'pbr', 'roe']] = \
 #            data[['per', 'pbr', 'roe']].apply(lambda x: x / 100) 이런 방식으로 scaling 해주면 될 것 같은데?
     else:

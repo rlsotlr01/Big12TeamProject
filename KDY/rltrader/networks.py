@@ -71,14 +71,20 @@ class Network:
                 if sess is not None:
                     set_session(sess)
                 loss = self.model.train_on_batch(x, y)
+                # 경사하강법을 실시한다.
         return loss
+    # 그리고 손실값을 리턴한다.
 
+    # 신경망 모델을 model_path 경로에 저장하는 함수
     def save_model(self, model_path):
         if model_path is not None and self.model is not None:
+            # 가중치들을 저장한다. 덮어쓰기 허용
             self.model.save_weights(model_path, overwrite=True)
 
+    # 신경망 모델을 model_path 경로에서 가져오는 함수
     def load_model(self, model_path):
         if model_path is not None:
+            # 가중치를 불러온다.
             self.model.load_weights(model_path)
 
     # 신경망의 종류에 따라 공유 신경망을 획득하는 클래스 함수
@@ -96,6 +102,10 @@ class Network:
             elif net == 'cnn':
                 return CNN.get_network_head(
                     Input((1, num_steps, input_dim)))
+    # dnn만 (?,)차원 데이터로 넣어주고, (input_dim,)
+    # lstm은 (num_steps, input_dim) 차원 데이터로,
+    # cnn 은 (1, num_steps, input_dim) 차원 데이터로 넣어줌.
+    # cnn 은 3차원 데이터를 받아들이기 때문에 3차원 방식으로 넣어준다.
 
 # Network 를 상속받아 심층 신경망을 구현한 DNN 클래스
 class DNN(Network):
