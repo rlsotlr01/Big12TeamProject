@@ -161,7 +161,7 @@ def load_data(fpath, date_from, date_to, ver='v2'):
     else:
         fpath1 = fpath.replace('.csv', 't.csv')
         fpath2 = fpath.replace('.csv', 'f.csv')
-        fpath3 = settings.BASE_DIR+'data/v3/global.csv'
+        fpath3 = settings.BASE_DIR+'/data/v3/global.csv'
         data1 = pd.read_csv(fpath1, thousands=',', header=header,
                             converters={'date': lambda x: str(x)})
         data2 = pd.read_csv(fpath2, thousands=',', header=header,

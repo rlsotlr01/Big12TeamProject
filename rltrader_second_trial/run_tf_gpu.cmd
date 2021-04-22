@@ -15,12 +15,12 @@ python main.py --stock_code 005380 --rl_method a2c --net lstm --num_steps 5 --ou
 
 test 할 것
 보험주
-python main.py --stock_code 005830 000060 000810 003690 001450 --rl_method a3c --net lstm --num_steps 10 --learning --num_epoches 1000 --lr 0.0001 --start_epsilon 0.3 --discount_factor 0.9 --reuse_models --output_name insurance_210420 --value_network_name a2c_lstm_value_b_insurance --policy_network_name a2c_lstm_policy_b_insurance --start_date 20110901 --end_date 20200901
+python main.py --stock_code 005830 000060 000810 003690 001450 --ver v3 --rl_method a3c --net lstm --num_steps 10 --learning --num_epoches 1000 --lr 0.0001 --start_epsilon 0.3 --discount_factor 0.9 --reuse_models --output_name insurance_210420 --value_network_name a2c_lstm_value_b_insurance --policy_network_name a2c_lstm_policy_b_insurance --start_date 20110901 --end_date 20200901
 
 DB손해보험(005830), 메리츠화재(000060), 삼성화재000810, 코리안리003690, 현대해상001450
 
 은행주 (동윤)
-python main.py --stock_code 105560 055550 086790 024110 138930 --rl_method a3c --net lstm --num_steps 10 --learning --num_epoches 1000 --lr 0.0001 --start_epsilon 0.3 --discount_factor 0.9 --reuse_models --output_name bank_210420 --value_network_name a2c_lstm_value_b_bank --policy_network_name a2c_lstm_policy_b_bank --start_date 20110901 --end_date 20200901
+python main.py --stock_code 105560 055550 086790 024110 138930 --ver v3 --rl_method a3c --net lstm --num_steps 10 --learning --num_epoches 1000 --lr 0.0001 --start_epsilon 0.3 --discount_factor 0.9 --reuse_models --output_name bank_210422 --value_network_name a2c_lstm_value_b_bank --policy_network_name a2c_lstm_policy_b_bank --start_date 20110901 --end_date 20200901
 
 0,0,KB금융,A105560,kospi,221626,2008-10-10,6.41
 4,4,신한지주,A055550,kospi,193467,2001-09-10,5.55
@@ -29,7 +29,7 @@ python main.py --stock_code 105560 055550 086790 024110 138930 --rl_method a3c -
 6,6,BNK금융지주,A138930,kospi,22098,2011-03-30,4.26
 
 반도체 장비
-python main.py --stock_code 105560 055550 086790 024110 138930 --rl_method a3c --net lstm --num_steps 10 --learning --num_epoches 1000 --lr 0.0001 --start_epsilon 0.3 --discount_factor 0.9 --reuse_models --output_name semiconduct_210420 --value_network_name a2c_lstm_value_b_semiconduct --policy_network_name a2c_lstm_policy_b_semiconduct --start_date 20110901 --end_date 20200901
+python main.py --stock_code 105560 055550 086790 024110 138930 --ver v3 --rl_method a3c --net lstm --num_steps 10 --learning --num_epoches 1000 --lr 0.0001 --start_epsilon 0.3 --discount_factor 0.9 --reuse_models --output_name semiconduct_210420 --value_network_name a2c_lstm_value_b_semiconduct --policy_network_name a2c_lstm_policy_b_semiconduct --start_date 20110901 --end_date 20200901
 
 
 ,Unnamed: 0,name,code,class,market_cap,reg_day,per
