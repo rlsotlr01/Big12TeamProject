@@ -12,6 +12,7 @@ if (bConnect == 0):
 objCpCodeMgr = win32com.client.Dispatch("CpUtil.CpCodeMgr")
 codeList = objCpCodeMgr.GetStockListByMarket(1)  # 거래소
 codeList2 = objCpCodeMgr.GetStockListByMarket(2)  # 코스닥
+# 재겸이형 바보
 
 #DB 생성
 conn = sqlite3.connect("stock_price(day).db", isolation_level=None)

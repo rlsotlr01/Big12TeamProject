@@ -12,6 +12,7 @@ from networks import Network, DNN, LSTMNetwork, CNN
 # from visualizer import Visualizer
 from learners import A3CLearner
 import pandas as pd
+from buy_order_module_daishin import order_stocks
 
 # 원숭이 책에서 나온 투자 시뮬레이션 방식
 # 1. 학습된 정책 신경망(HDF5 파일) 사용
@@ -80,6 +81,10 @@ a3c_learner = A3CLearner(**{
 # 4. 여기 행동을 API랑 연결하면 곧 주식 매매프로그램 완성.
 # 5. 거기다가 API 에 수익 시각화 기능도 만들어야 될 듯.
 # 실시간 계좌 출력.
+i = 0
+actions = [] # 각각의 learner 의 행동을 담는다.
+number_of_tradings = [] # 각각의 learner 의 구매 수량을 담는다.
+
 for learner in a3c_learner.learners:
     epsilon = 0
     q_sample = learner.build_sample()
@@ -94,13 +99,28 @@ for learner in a3c_learner.learners:
                             pred_value, pred_policy, epsilon)
     # 해야할 행동과 자신감, 그리고 탐험 여부를 가져온다.
 
+
     number_of_trading = learner.agent.decide_trading_unit(confidence) # 거래할 단위를 신경망이 알아낸다.
     # 그리고 action 을 API에 대입해 행동한다.
 
+    actions.append(action)
+    number_of_tradings.append(number_of_trading)
+    # 각 종목에 맞는 학습기가 선택한 행동과 주식 수를 담는다.
+
+    i += 1
     immediate_reward, delayed_reward = learner.agent.act(action, confidence)
     # 그리고 한 행동을 에이전트 상에서도 실행시킨다.
 
-    # 그렇게 action 과 number_of_trading 이 있으면 바로 구매 가능.
-
+# 학습기들이 알아낸 결정대로 API를 활용해 매수/매도를 한다.
+for i in range(actions):
+    if actions[i] == 0 or actions[i] == 1: # 매수(0) 또는 매도(1)
+        price = 0 # 여기 구매 가격을 실시간 대신 API 활용해서 가져와야 함.
+        # list_stock_code[i] 활용해서 현재가격 알아와야 함.
+        order_stocks(list_stock_code[i], actions[i], number_of_tradings[i], price)
+        # ACTION_BUY = 0  # 매수 -> actions
+        # ACTION_SELL = 1  # 매도
+        # ACTION_HOLD = 2 # 홀드
+    else: # 홀드 -> 아무 동작도 안한다.
+        pass
 # 실행을 하고 다음날 데이터가 모두 만들어지면 update ?
 #learner.update_networks(batch_size, delayed_reward, discount_factor)
