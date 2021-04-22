@@ -19,7 +19,7 @@ python main.py --stock_code 005830 000060 000810 003690 001450 --rl_method a3c -
 
 DB손해보험(005830), 메리츠화재(000060), 삼성화재000810, 코리안리003690, 현대해상001450
 
-은행주
+은행주 (동윤)
 python main.py --stock_code 105560 055550 086790 024110 138930 --rl_method a3c --net lstm --num_steps 10 --learning --num_epoches 1000 --lr 0.0001 --start_epsilon 0.3 --discount_factor 0.9 --reuse_models --output_name bank_210420 --value_network_name a2c_lstm_value_b_bank --policy_network_name a2c_lstm_policy_b_bank --start_date 20110901 --end_date 20200901
 
 0,0,KB금융,A105560,kospi,221626,2008-10-10,6.41
