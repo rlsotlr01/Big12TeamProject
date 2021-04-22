@@ -213,9 +213,14 @@ def cal_sto(codes, n=12, m=5, t=5):
 def cut_date(codes):
     filepath = './merged_data/trend_csvfiles'
     result_path = './merged_data/quarter_csvfiles'
+    v3_path = 'D:/PycharmProjects/Big12TeamProject/KDY//rltrader/data/v3'
 
     if not os.path.exists(result_path):
         os.mkdir(result_path)
+
+    if not os.path.exists(v3_path):
+            os.mkdir(v3_path)
+
     for elem in codes:
         data = pd.read_csv(filepath + "/{}t.csv".format(elem[1:]))
         data['date'] = data['date'].astype(str)
@@ -226,14 +231,17 @@ def cut_date(codes):
         trend_data = data[bool1&bool2]
         trend_data.to_csv(result_path + "/{}t.csv".format(elem[1:]), index=False)
 
-    return trend_data
+        v3_data = trend_data
+        v3_data.to_csv(v3_path + "/{}t.csv".format(elem[1:]), index=False)
 
-sql_to_csv()
-select_cols_for_monkey()
-cal_std()
-cal_ma()
-cal_MACD()
-cal_RSI()
-cal_BB()
-cal_sto()
-cut_date()
+    return v3_data
+
+# sql_to_csv()
+# select_cols_for_monkey()
+# cal_std()
+# cal_ma()
+# cal_MACD()
+# cal_RSI()
+# cal_BB()
+# cal_sto()
+cut_date(codes)
