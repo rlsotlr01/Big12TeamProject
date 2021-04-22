@@ -260,8 +260,14 @@ class ReinforcementLearner:
         if not os.path.isdir(self.epoch_summary_dir):
             os.makedirs(self.epoch_summary_dir)
         else:
-            for f in os.listdir(self.epoch_summary_dir):
-                os.remove(os.path.join(self.epoch_summary_dir, f))
+            while(os.path.isdir(self.epoch_summary_dir)):
+                epoch_summary_dir+=str('_again')
+                if (os.path.isdir(self.epoch_summary_dir)):
+                    continue
+                else:
+                    os.makedirs(self.epoch_summary_dir)
+            # 여러번 학습할 경우 폴더를 또 만들어서
+            # 결과를 저장한다.
 
         # 에이전트 초기 자본금 설정
         self.agent.set_balance(balance)

@@ -149,6 +149,7 @@ def preprocess_v3(data, ver='v3'):
         data[chart_col] = scaler.fit_transform(data[chart_col])
     for col in COLUMNS_TRAINING_DATA_V3:
         data[col] = scaler.fit_transform(data[col])
+    # 모든 컬럼에 대한 값들을 minmaxscaler 로 스케일링을 한다.
     return data
 
 
