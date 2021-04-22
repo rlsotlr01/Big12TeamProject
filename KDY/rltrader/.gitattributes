@@ -1,0 +1,2 @@
+C:/Users/rlsot/PycharmProjects/Big12TeamProject/stock_preprocess/stocking_financial_data_merged filter=lfs diff=lfs merge=lfs -text
+C:/Users/rlsot/PycharmProjects/Big12TeamProject/rltrader_second_trial filter=lfs diff=lfs merge=lfs -text
