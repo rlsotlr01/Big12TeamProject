@@ -145,10 +145,10 @@ def preprocess_v3(data, ver='v3'):
     #     , 'eurostock', 'nikkei', 'hangsen'
     #     , 'usa2', 'usa5', 'usa10', 'usa30'
     # ]
-    for chart_col in COLUMNS_CHART_DATA:
-        data[chart_col] = scaler.fit_transform(data[chart_col])
-    for col in COLUMNS_TRAINING_DATA_V3:
-        data[col] = scaler.fit_transform(data[col])
+    # for chart_col in COLUMNS_CHART_DATA:
+    #     data[chart_col] = scaler.fit_transform(data[chart_col])
+    # for col in COLUMNS_TRAINING_DATA_V3:
+    #     data[col] = scaler.fit_transform(data[col])
     # 모든 컬럼에 대한 값들을 minmaxscaler 로 스케일링을 한다.
     return data
 
@@ -168,7 +168,8 @@ def load_data(fpath, date_from, date_to, ver='v2'):
                             converters={'date': lambda x: str(x)})
         data3 = pd.read_csv(fpath3, thousands=',', header=header,
                             converters={'date': lambda x: str(x)})
-        data = pd.concat([data1, data2, data3], axis=1)
+        data = pd.merge(data1, data2, how='left')
+        data = pd.merge(data, data3, how='left')
 
     if ver == 'v1':
         data.columns = ['date', 'open', 'high', 'low', 'close', 'volume']
