@@ -213,7 +213,7 @@ def cal_sto(codes, n=12, m=5, t=5):
 def cut_date(codes):
     filepath = './merged_data/trend_csvfiles'
     result_path = './merged_data/quarter_csvfiles'
-    v3_path = 'D:/PycharmProjects/Big12TeamProject/KDY//rltrader/data/v3'
+    v3_path = 'D:/PycharmProjects/Big12TeamProject/rltrader_second_trial/data/v3'
 
     if not os.path.exists(result_path):
         os.mkdir(result_path)
