@@ -257,5 +257,5 @@ def collecting_all(company_lists=None):
 
 
 # 모든 업종별 조건처리 맞는 데이터들 가져오기
-collecting_all(['반도체와반도체장비','기계','자동차','자동차부품','가정용기기와용품'])
+collecting_all()
 selecting_with_conditions(10, 5)

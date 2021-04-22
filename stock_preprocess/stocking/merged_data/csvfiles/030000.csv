@@ -1,4 +1,4 @@
-day,cur_pr,high_pr,low_pr,clo_pr,pr_diff,acc_vol,for_stor,for_stor_diff,for,com_buy_vol,oot_cur_pr,oot_high_pr,oot_low_pr,oot_clo_pr,oot_pr_diff,oot_vol
+day,cur_pr,high_pr,low_pr,clo_pr,pr_diff,acc_vol,for_stor,for_stor_diff,for_perc,com_buy_vol,oot_cur_pr,oot_high_pr,oot_low_pr,oot_clo_pr,oot_pr_diff,oot_vol
 19980303,22400,22400,22400,22400,0,280,0,0,0.0,0,0,0,0,0,0,0
 19980304,25050,25050,25050,25050,2650,6800,0,0,0.0,0,0,0,0,0,0,0
 19980305,28050,28050,28050,28050,3000,8500,0,0,0.0,0,0,0,0,0,0,0

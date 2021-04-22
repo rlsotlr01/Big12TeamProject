@@ -1,4 +1,4 @@
-day,cur_pr,high_pr,low_pr,clo_pr,pr_diff,acc_vol,for_stor,for_stor_diff,for,com_buy_vol,oot_cur_pr,oot_high_pr,oot_low_pr,oot_clo_pr,oot_pr_diff,oot_vol
+day,cur_pr,high_pr,low_pr,clo_pr,pr_diff,acc_vol,for_stor,for_stor_diff,for_perc,com_buy_vol,oot_cur_pr,oot_high_pr,oot_low_pr,oot_clo_pr,oot_pr_diff,oot_vol
 20210326,39200,40350,39200,40150,950,142051,11207409,41044,25.29,-14661,40150,40150,39850,39850,-300,297
 20210325,39300,39750,39150,39200,450,121895,11165213,36713,25.2,-33879,39200,39350,39200,39350,150,513
 20210324,40200,40200,39000,39650,150,126381,11128500,20039,25.11,-13672,39600,39600,39400,39450,-200,664

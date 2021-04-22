@@ -3,22 +3,35 @@ import pandas as pd
 import os
 import numpy as np
 
+codes_list = []
+csv_path = './naver_data/'
+csv_files = [csv_path + '무선통신서비스.csv', csv_path + '복합기업.csv', csv_path + '전자장비와기기.csv', csv_path + '화학.csv',
+             csv_path + '철강.csv'
+    , csv_path + 'IT서비스.csv', csv_path + '해운사.csv', csv_path + '조선.csv', csv_path + '광고.csv', csv_path + '건설.csv'
+    , csv_path + '건설.csv', csv_path + '게임엔터테인먼트.csv', csv_path + '은행.csv', csv_path + '손해보험.csv',
+             csv_path + '생명보험.csv', csv_path + '증권.csv'
+    , csv_path + '식품.csv', csv_path + '화장품.csv', csv_path + '백화점과일반상점.csv', csv_path + '석유와가스.csv',
+             csv_path + '음료.csv'
+    , csv_path + '반도체와반도체장비.csv', csv_path + '기계.csv', csv_path + '자동차.csv', csv_path + '자동차부품.csv',
+             csv_path + '가정용기기와용품.csv'
+    , csv_path + '방송과엔터테인먼트.csv', csv_path + '항공화물운송과물류.csv', csv_path + '통신장비.csv', csv_path + '소프트웨어.csv',
+             csv_path + '섬유,의류,신발,호화품.csv'
+    , csv_path + '제약.csv', csv_path + '생명과학도구및서비스.csv', csv_path + '건축자재.csv', csv_path + '생물공학.csv',
+             csv_path + '가스유틸리티.csv']
+# 추가할 csv 파일을 넣어준다.
 
-conn = sqlite3.connect('./data/stock_db(day)_merge_new.db', isolation_level=None)
-c = conn.cursor()
-c.execute("SELECT name FROM sqlite_master WHERE type = 'table';")
+for csv_file in csv_files:
+    # 각각의 csv 파일을 읽으며 code 를 담는다.
+    data = pd.read_csv(csv_file)
+    for code in list(data['code']):
+        codes_list.append(code)
 
-code_tuple = c.fetchall()
-print(code_tuple)
-
-# 튜플을 리스트로 변환
-code_list = [data[0] for data in code_tuple]
-code = code_list
-
-print(code)
+# 실시간데이터는 199개까지로 제한. 200개 부턴 안됨.
+# 위에는 DB에서 종목코드 가져오는 코딩. 제대로 작동함.
+codes = codes_list  # 모든 종목코드를 담음.
 
 # db 안에 있는 데이터를 csv로 만들어주는 함수. (기능 완료)
-def sql_to_csv(code):
+def sql_to_csv(codes):
     # code 는 A 포함하지 않고 넣어줘야 함. ex.005930 이렇게.
     # 사용할 데이터의 위치
     data_loc = './data'
@@ -30,7 +43,7 @@ def sql_to_csv(code):
         os.mkdir(filepath)
     db=sqlite3.connect(data_loc+'/stock_db(day)_merge_new.db')
 
-    for elem in code:
+    for elem in codes:
         selected_data = pd.read_sql_query("SELECT * FROM {}".format(elem), db)
         # 해당 코드의 csv 파일을 저장한다.
         selected_data.to_csv(filepath+"/{}.csv".format(elem[1:]),index=False)
@@ -39,14 +52,14 @@ def sql_to_csv(code):
 # csv 를 불러와서 전처리 하기 위한 용도 (완료)
 # - monkey 강화학습에 필요한 컬럼(day, cur_pr, high_pr, low_pr, clo_pr, for_stor만 뽑아내고,
 # - 컬럼명 변경 (date, open, high, low, close, volume)
-def select_cols_for_monkey(code):
+def select_cols_for_monkey(codes):
 
     filepath = './merged_data/csvfiles'
     result_path = './merged_data/processed_csvfiles'
     if not os.path.exists(result_path):
         os.mkdir(result_path)
 
-    for elem in code:
+    for elem in codes:
         data = pd.read_csv(filepath+"/{}.csv".format(elem[1:]))
         data = data.sort_values('day', ascending = True)
         data['day']=data['day'].astype(str)
@@ -61,12 +74,12 @@ def select_cols_for_monkey(code):
 
     return col_processed_data
 
-def cal_std(code):
+def cal_std(codes):
     filepath = './merged_data/processed_csvfiles'
     result_path = './merged_data/trend_csvfiles'
     if not os.path.exists(result_path):
         os.mkdir(result_path)
-    for elem in code:
+    for elem in codes:
         data = pd.read_csv(filepath + "/{}.csv".format(elem[1:]))
         # data['close'].fillna(value=0)
 
@@ -87,10 +100,10 @@ def cal_std(code):
 
     return trend_data
 
-def cal_ma(code):
+def cal_ma(codes):
     filepath = './merged_data/trend_csvfiles'
 
-    for elem in code:
+    for elem in codes:
         data = pd.read_csv(filepath + "/{}t.csv".format(elem[1:]))
 
         # MA5, MA10, MA20, MA60 컬럼 추가
@@ -115,10 +128,10 @@ def cal_ma(code):
 # EMA(Exponential Moving Average) = 지수 이동 평균
 # MACD = EMA(numFast) - EMA(numSlow)
 # ewm() => rolling() 함수와 비슷하게 사용
-def cal_MACD(code, num_fast=12, num_slow=26, num_signal=9) :
+def cal_MACD(codes, num_fast=12, num_slow=26, num_signal=9) :
     filepath = './merged_data/trend_csvfiles'
 
-    for elem in code:
+    for elem in codes:
         data = pd.read_csv(filepath + "/{}t.csv".format(elem[1:]))
 
         data['EMAFast'] = data['close'].ewm(span=num_fast).mean()
@@ -136,10 +149,10 @@ def cal_MACD(code, num_fast=12, num_slow=26, num_signal=9) :
 # RSI(Relative Strength Index) = 상대적 강도 지수
 # 30 이하시 초과매도 매수 포지션을 취해야 하고, 70 이상시 초과매수 = 매도 포지션 취해야 한다.
 # 50 을 기준으로 상향 돌파시 매수, 하향 돌파시 매도
-def cal_RSI(code, days=14):
+def cal_RSI(codes, days=14):
     filepath = './merged_data/trend_csvfiles'
 
-    for elem in code:
+    for elem in codes:
         data = pd.read_csv(filepath + "/{}t.csv".format(elem[1:]))
 
         Up = np.where(data.diff(1)['close'] > 0, data.diff(1)['close'], 0)
@@ -157,10 +170,10 @@ def cal_RSI(code, days=14):
 
     return trend_data
 
-def cal_BB(code):
+def cal_BB(codes):
     filepath = './merged_data/trend_csvfiles'
 
-    for elem in code:
+    for elem in codes:
         data = pd.read_csv(filepath + "/{}t.csv".format(elem[1:]))
 
         data['upper_bb'] = data['ma20'] + (data['standard deviation20'] * 2) # 상단 볼린저 밴드
@@ -172,10 +185,10 @@ def cal_BB(code):
 
     return trend_data
 
-def cal_sto(code, n=12, m=5, t=5):
+def cal_sto(codes, n=12, m=5, t=5):
     filepath = './merged_data/trend_csvfiles'
 
-    for elem in code:
+    for elem in codes:
         data = pd.read_csv(filepath + "/{}t.csv".format(elem[1:]))
 
         hp = data['high'].rolling(window=n).max()
@@ -197,13 +210,13 @@ def cal_sto(code, n=12, m=5, t=5):
 
     return trend_data
 
-def cut_date(code):
+def cut_date(codes):
     filepath = './merged_data/trend_csvfiles'
     result_path = './merged_data/quarter_csvfiles'
 
     if not os.path.exists(result_path):
         os.mkdir(result_path)
-    for elem in code:
+    for elem in codes:
         data = pd.read_csv(filepath + "/{}t.csv".format(elem[1:]))
         data['date'] = data['date'].astype(str)
 
@@ -215,12 +228,12 @@ def cut_date(code):
 
     return trend_data
 
-sql_to_csv(code)
-select_cols_for_monkey(code)
-cal_std(code)
-cal_ma(code)
-cal_MACD(code)
-cal_RSI(code)
-cal_BB(code)
-cal_sto(code)
-cut_date(code)
+sql_to_csv()
+select_cols_for_monkey()
+cal_std()
+cal_ma()
+cal_MACD()
+cal_RSI()
+cal_BB()
+cal_sto()
+cut_date()
