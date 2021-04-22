@@ -260,12 +260,14 @@ class ReinforcementLearner:
         if not os.path.isdir(self.epoch_summary_dir):
             os.makedirs(self.epoch_summary_dir)
         else:
-            while(os.path.isdir(self.epoch_summary_dir)):
-                epoch_summary_dir+=str('_again')
-                if (os.path.isdir(self.epoch_summary_dir)):
+            while os.path.isdir(self.epoch_summary_dir):
+                self.epoch_summary_dir += str('_again')
+
+                if os.path.isdir(self.epoch_summary_dir):
                     continue
                 else:
                     os.makedirs(self.epoch_summary_dir)
+                    break
             # 여러번 학습할 경우 폴더를 또 만들어서
             # 결과를 저장한다.
 

@@ -74,6 +74,8 @@ class Agent:
         self.initial_balance = balance
 
     def get_states(self):
+        # print('p_v :', self.portfolio_value)
+        # print('get_price :', self.environment.get_price())
         self.ratio_hold = self.num_stocks / int(
             self.portfolio_value / self.environment.get_price())
         self.ratio_portfolio_value = (

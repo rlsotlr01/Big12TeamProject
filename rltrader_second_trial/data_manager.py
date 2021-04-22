@@ -48,7 +48,10 @@ COLUMNS_TRAINING_DATA_V2 = [
 ]
 COLUMNS_TRAINING_DATA_V3 = [
     # 여긴 T 데이터
-
+    'korcom', 'forvol', 'ma5',
+    'ma10', 'ma20', 'ma60', 'ma120', 'EMAFast', 'EMASlow',
+    'MACD', 'MACDSignal', 'MACDiff', 'RSI', 'upper_bb',
+    'mid_bb', 'lower_bb', 'fast_k', 'slow_k', 'slow_d',
     # 여기부턴 F 데이터
      'roe', 'roa', 'eps', 'bps'
     , 'sales', 'margin', 'net_margin'
@@ -145,10 +148,11 @@ def preprocess_v3(data, ver='v3'):
     #     , 'eurostock', 'nikkei', 'hangsen'
     #     , 'usa2', 'usa5', 'usa10', 'usa30'
     # ]
-    # for chart_col in COLUMNS_CHART_DATA:
-    #     data[chart_col] = scaler.fit_transform(data[chart_col])
-    # for col in COLUMNS_TRAINING_DATA_V3:
-    #     data[col] = scaler.fit_transform(data[col])
+    cols = ['open', 'high', 'low', 'close', 'volume']
+    # for chart_col in cols:
+    #     data[chart_col] = scaler.fit_transform(np.array(data[chart_col].astype(float)).reshape(-1, 1))
+    for col in COLUMNS_TRAINING_DATA_V3:
+        data[col] = scaler.fit_transform(np.array(data[col].astype(float)).reshape(-1, 1))
     # 모든 컬럼에 대한 값들을 minmaxscaler 로 스케일링을 한다.
     return data
 
