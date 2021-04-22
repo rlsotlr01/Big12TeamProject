@@ -4,7 +4,7 @@ import os
 import numpy as np
 
 
-conn = sqlite3.connect('./data/stock_db(day)_merge.db', isolation_level=None)
+conn = sqlite3.connect('./data/stock_db(day)_merge_new.db', isolation_level=None)
 c = conn.cursor()
 c.execute("SELECT name FROM sqlite_master WHERE type = 'table';")
 
@@ -28,7 +28,7 @@ def sql_to_csv(code):
     # csvfiles 폴더가 존재하지 않으면 해당 폴더를 만든다.
     if not os.path.exists(filepath):
         os.mkdir(filepath)
-    db=sqlite3.connect(data_loc+'/stock_db(day)_merge.db')
+    db=sqlite3.connect(data_loc+'/stock_db(day)_merge_new.db')
 
     for elem in code:
         selected_data = pd.read_sql_query("SELECT * FROM {}".format(elem), db)
@@ -48,19 +48,19 @@ def select_cols_for_monkey(code):
 
     for elem in code:
         data = pd.read_csv(filepath+"/{}.csv".format(elem[1:]))
+        data = data.sort_values('day', ascending = True)
         data['day']=data['day'].astype(str)
-        new_data = data[['day','cur_pr','high_pr','low_pr','clo_pr','acc_vol', 'com_buy_vol']]
-        bool1 = new_data['day']>='20101201'
+        new_data = data[['day','cur_pr','high_pr','low_pr','clo_pr','acc_vol', 'com_buy_vol', 'for_stor']]
+        bool1 = new_data['day']>='20101001'
         bool2 = new_data['day']<'20210101'
 
         processed_data = new_data[bool1&bool2]
 
-        col_processed_data = processed_data.rename(columns = {'day':'date','cur_pr':'open','high_pr':'high','low_pr':'low','clo_pr':'close','acc_vol':'volume', 'com_buy_vol':"korcom"})
+        col_processed_data = processed_data.rename(columns = {'day':'date','cur_pr':'open','high_pr':'high','low_pr':'low','clo_pr':'close','acc_vol':'volume', 'com_buy_vol':'korcom', 'for_stor':'forvol'})
         col_processed_data.to_csv(result_path+"/{}.csv".format(elem[1:]),index=False)
 
     return col_processed_data
 
-# 표준편차 계산
 def cal_std(code):
     filepath = './merged_data/processed_csvfiles'
     result_path = './merged_data/trend_csvfiles'
@@ -87,7 +87,6 @@ def cal_std(code):
 
     return trend_data
 
-# ma 계산
 def cal_ma(code):
     filepath = './merged_data/trend_csvfiles'
 
@@ -158,7 +157,6 @@ def cal_RSI(code, days=14):
 
     return trend_data
 
-# 볼린져밴드 계산
 def cal_BB(code):
     filepath = './merged_data/trend_csvfiles'
 
@@ -174,7 +172,6 @@ def cal_BB(code):
 
     return trend_data
 
-# 스토캐스틱 계산
 def cal_sto(code, n=12, m=5, t=5):
     filepath = './merged_data/trend_csvfiles'
 
@@ -200,7 +197,6 @@ def cal_sto(code, n=12, m=5, t=5):
 
     return trend_data
 
-# 날짜 20110401~20210101 잘라내기
 def cut_date(code):
     filepath = './merged_data/trend_csvfiles'
     result_path = './merged_data/quarter_csvfiles'
@@ -209,6 +205,7 @@ def cut_date(code):
         os.mkdir(result_path)
     for elem in code:
         data = pd.read_csv(filepath + "/{}t.csv".format(elem[1:]))
+        data['date'] = data['date'].astype(str)
 
         bool1 = data['date']>='20110401'
         bool2 = data['date']<'20210101'
