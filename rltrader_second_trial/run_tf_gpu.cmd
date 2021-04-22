@@ -14,13 +14,20 @@ python main.py --stock_code 005380 --rl_method a2c --net lstm --num_steps 5 --ou
 
 
 test 할 것
-보험주
-python main.py --stock_code 005830 000060 000810 003690 001450 --ver v3 --rl_method a3c --net lstm --num_steps 10 --learning --num_epoches 1000 --lr 0.0001 --start_epsilon 0.3 --discount_factor 0.9 --reuse_models --output_name insurance_210420 --value_network_name a2c_lstm_value_b_insurance --policy_network_name a2c_lstm_policy_b_insurance --start_date 20110901 --end_date 20200901
+보험주 (재겸)
+학습
+python main.py --stock_code 005830 000060 000810 003690 001450 --ver v3 --rl_method a3c --net lstm --num_steps 10 --learning --num_epoches 1000 --lr 0.0001 --start_epsilon 0.3 --discount_factor 0.9 --output_name insurance_210422 --value_network_name a2c_lstm_value_b_insurance --policy_network_name a2c_lstm_policy_b_insurance --start_date 20200101 --end_date 20200901
+테스트
+python main.py --stock_code 005830 000060 000810 003690 001450 --ver v3 --rl_method a3c --net lstm --num_steps 10 --learning --num_epoches 1000 --lr 0.0001 --start_epsilon 0.3 --discount_factor 0.9 --reuse_models --output_name insurance_210422 --value_network_name a2c_lstm_value_b_insurance --policy_network_name a2c_lstm_policy_b_insurance --start_date 20200101 --end_date 20200901
 
 DB손해보험(005830), 메리츠화재(000060), 삼성화재000810, 코리안리003690, 현대해상001450
 
 은행주 (동윤)
-python main.py --stock_code 105560 055550 086790 024110 138930 --ver v3 --rl_method a3c --net lstm --num_steps 10 --learning --num_epoches 1000 --lr 0.0001 --start_epsilon 0.3 --discount_factor 0.9 --reuse_models --output_name bank_210422 --value_network_name a2c_lstm_value_b_bank --policy_network_name a2c_lstm_policy_b_bank --start_date 20110901 --end_date 20200901
+학습
+python main.py --stock_code 105560 055550 086790 024110 138930 --ver v3 --rl_method a3c --net lstm --num_steps 10 --learning --num_epoches 1000 --lr 0.0001 --start_epsilon 0.3 --discount_factor 0.9 --output_name insurance_210422 --value_network_name a2c_lstm_value_b_insurance --policy_network_name a2c_lstm_policy_b_insurance --start_date 20200101 --end_date 20200901
+python main.py --stock_code 105560 055550 086790 024110 138930 --ver v3 --rl_method a3c --net lstm --num_steps 10 --learning --num_epoches 1000 --lr 0.0001 --start_epsilon 0.3 --discount_factor 0.9 --reuse_models --output_name insurance_210422 --value_network_name a2c_lstm_value_b_insurance --policy_network_name a2c_lstm_policy_b_insurance --start_date 20200101 --end_date 20200901
+
+
 
 0,0,KB금융,A105560,kospi,221626,2008-10-10,6.41
 4,4,신한지주,A055550,kospi,193467,2001-09-10,5.55
@@ -28,9 +35,11 @@ python main.py --stock_code 105560 055550 086790 024110 138930 --ver v3 --rl_met
 8,8,기업은행,A024110,kospi,67588,2003-12-24,4.56
 6,6,BNK금융지주,A138930,kospi,22098,2011-03-30,4.26
 
-반도체 장비
-python main.py --stock_code 105560 055550 086790 024110 138930 --ver v3 --rl_method a3c --net lstm --num_steps 10 --learning --num_epoches 1000 --lr 0.0001 --start_epsilon 0.3 --discount_factor 0.9 --reuse_models --output_name semiconduct_210420 --value_network_name a2c_lstm_value_b_semiconduct --policy_network_name a2c_lstm_policy_b_semiconduct --start_date 20110901 --end_date 20200901
-
+반도체 장비(중헌)
+학습용
+python main.py --stock_code 005930 000660 005935 000990 058470 --ver v3 --rl_method a3c --net lstm --num_steps 10 --learning --num_epoches 1000 --lr 0.0001 --start_epsilon 0.3 --discount_factor 0.9 --output_name insurance_210422 --value_network_name a2c_lstm_value_b_insurance --policy_network_name a2c_lstm_policy_b_insurance --start_date 20200101 --end_date 20200901
+테스트용
+python main.py --stock_code 005930 000660 005935 000990 058470 --ver v3 --rl_method a3c --net lstm --num_steps 10 --learning --num_epoches 1000 --lr 0.0001 --start_epsilon 0.3 --discount_factor 0.9 --reuse_models --output_name insurance_210422 --value_network_name a2c_lstm_value_b_insurance --policy_network_name a2c_lstm_policy_b_insurance --start_date 20200101 --end_date 20200901
 
 ,Unnamed: 0,name,code,class,market_cap,reg_day,per
 47,47,삼성전자,A005930,kospi,4984768,1975-06-11,21.74
@@ -39,8 +48,11 @@ python main.py --stock_code 105560 055550 086790 024110 138930 --ver v3 --rl_met
 85,85,DB하이텍,A000990,kospi,24464,1975-12-12,14.77
 96,96,리노공업,A058470,kosdaq,24159,2001-12-18,43.63
 
-건설
-python main.py --stock_code 000720 006360 047040 028050 010780 --rl_method a3c --net lstm --num_steps 10 --learning --num_epoches 1000 --lr 0.0001 --start_epsilon 0.3 --discount_factor 0.9 --reuse_models --output_name construction_210422 --value_network_name a2c_lstm_value_b_construction --policy_network_name a2c_lstm_policy_b_construction --start_date 20110901 --end_date 20200901
+건설(예빈)
+학습용
+python main.py --stock_code 000720 006360 047040 028050 010780 --ver v3 --rl_method a3c --net lstm --num_steps 10 --learning --num_epoches 1000 --lr 0.0001 --start_epsilon 0.3 --discount_factor 0.9 --output_name insurance_210422 --value_network_name a2c_lstm_value_b_insurance --policy_network_name a2c_lstm_policy_b_insurance --start_date 20200101 --end_date 20200901
+테스트용
+python main.py --stock_code 000720 006360 047040 028050 010780 --ver v3 --rl_method a3c --net lstm --num_steps 10 --learning --num_epoches 1000 --lr 0.0001 --start_epsilon 0.3 --discount_factor 0.9 --reuse_models --output_name insurance_210422 --value_network_name a2c_lstm_value_b_insurance --policy_network_name a2c_lstm_policy_b_insurance --start_date 20200101 --end_date 20200901
 
 
 ,Unnamed: 0,name,code,class,market_cap,reg_day,per
