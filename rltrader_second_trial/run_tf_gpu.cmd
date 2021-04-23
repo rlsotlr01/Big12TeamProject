@@ -26,7 +26,7 @@ DB손해보험(005830), 메리츠화재(000060), 삼성화재000810, 코리안�
 학습
 python main.py --stock_code 105560 055550 086790 024110 138930 --ver v3 --rl_method a3c --net lstm --num_steps 10 --learning --num_epoches 1000 --lr 0.0001 --start_epsilon 0.3 --discount_factor 0.9 --output_name insurance_210422 --value_network_name a2c_lstm_value_b_insurance --policy_network_name a2c_lstm_policy_b_insurance --start_date 20200101 --end_date 20200901
 python main.py --stock_code 105560 055550 086790 024110 138930 --ver v3 --rl_method a3c --net lstm --num_steps 10 --learning --num_epoches 1000 --lr 0.0001 --start_epsilon 0.3 --discount_factor 0.9 --reuse_models --output_name insurance_210422 --value_network_name a2c_lstm_value_b_insurance --policy_network_name a2c_lstm_policy_b_insurance --start_date 20200101 --end_date 20200901
-
+# 이거 bank 로 이름 다 바꿔줘야 돼.
 
 
 0,0,KB금융,A105560,kospi,221626,2008-10-10,6.41
@@ -37,9 +37,9 @@ python main.py --stock_code 105560 055550 086790 024110 138930 --ver v3 --rl_met
 
 반도체 장비(중헌)
 학습용
-python main.py --stock_code 005930 000660 005935 000990 058470 --ver v3 --rl_method a3c --net lstm --num_steps 10 --learning --num_epoches 1000 --lr 0.0001 --start_epsilon 0.3 --discount_factor 0.9 --output_name insurance_210422 --value_network_name a2c_lstm_value_b_insurance --policy_network_name a2c_lstm_policy_b_insurance --start_date 20200101 --end_date 20200901
+python main.py --stock_code 005930 000660 005935 000990 058470 --ver v3 --rl_method a3c --net lstm --num_steps 10 --learning --num_epoches 1000 --lr 0.0001 --start_epsilon 0.3 --discount_factor 0.9 --output_name semicon_210422 --value_network_name a2c_lstm_value_b_semicon --policy_network_name a2c_lstm_policy_b_semicon --start_date 20200101 --end_date 20200901
 테스트용
-python main.py --stock_code 005930 000660 005935 000990 058470 --ver v3 --rl_method a3c --net lstm --num_steps 10 --learning --num_epoches 1000 --lr 0.0001 --start_epsilon 0.3 --discount_factor 0.9 --reuse_models --output_name insurance_210422 --value_network_name a2c_lstm_value_b_insurance --policy_network_name a2c_lstm_policy_b_insurance --start_date 20200101 --end_date 20200901
+python main.py --stock_code 005930 000660 005935 000990 058470 --ver v3 --rl_method a3c --net lstm --num_steps 10 --learning --num_epoches 1000 --lr 0.0001 --start_epsilon 0.3 --discount_factor 0.9 --reuse_models --output_name semicon_210422 --value_network_name a2c_lstm_value_b_semicon --policy_network_name a2c_lstm_policy_b_semicon --start_date 20200101 --end_date 20200901
 
 ,Unnamed: 0,name,code,class,market_cap,reg_day,per
 47,47,삼성전자,A005930,kospi,4984768,1975-06-11,21.74
@@ -50,9 +50,9 @@ python main.py --stock_code 005930 000660 005935 000990 058470 --ver v3 --rl_met
 
 건설(예빈)
 학습용
-python main.py --stock_code 000720 006360 047040 028050 010780 --ver v3 --rl_method a3c --net lstm --num_steps 10 --learning --num_epoches 1000 --lr 0.0001 --start_epsilon 0.3 --discount_factor 0.9 --output_name insurance_210422 --value_network_name a2c_lstm_value_b_insurance --policy_network_name a2c_lstm_policy_b_insurance --start_date 20200101 --end_date 20200901
+python main.py --stock_code 000720 006360 047040 028050 010780 --ver v3 --rl_method a3c --net lstm --num_steps 10 --learning --num_epoches 1000 --lr 0.0001 --start_epsilon 0.3 --discount_factor 0.9 --output_name construction_210422 --value_network_name a2c_lstm_value_b_construction --policy_network_name a2c_lstm_policy_b_construction --start_date 20200101 --end_date 20200901
 테스트용
-python main.py --stock_code 000720 006360 047040 028050 010780 --ver v3 --rl_method a3c --net lstm --num_steps 10 --learning --num_epoches 1000 --lr 0.0001 --start_epsilon 0.3 --discount_factor 0.9 --reuse_models --output_name insurance_210422 --value_network_name a2c_lstm_value_b_insurance --policy_network_name a2c_lstm_policy_b_insurance --start_date 20200101 --end_date 20200901
+python main.py --stock_code 000720 006360 047040 028050 010780 --ver v3 --rl_method a3c --net lstm --num_steps 10 --learning --num_epoches 1000 --lr 0.0001 --start_epsilon 0.3 --discount_factor 0.9 --reuse_models --output_name construction_210422 --value_network_name a2c_lstm_value_b_construction --policy_network_name a2c_lstm_policy_b_construction --start_date 20200101 --end_date 20200901
 
 
 ,Unnamed: 0,name,code,class,market_cap,reg_day,per
