@@ -24,9 +24,17 @@ DB손해보험(005830), 메리츠화재(000060), 삼성화재000810, 코리안�
 
 은행주 (동윤)
 학습
-python main.py --stock_code 105560 055550 086790 024110 138930 --ver v3 --rl_method a3c --net lstm --num_steps 10 --learning --num_epoches 1000 --lr 0.0001 --start_epsilon 0.3 --discount_factor 0.9 --output_name insurance_210422 --value_network_name a2c_lstm_value_b_insurance --policy_network_name a2c_lstm_policy_b_insurance --start_date 20200101 --end_date 20200901
-python main.py --stock_code 105560 055550 086790 024110 138930 --ver v3 --rl_method a3c --net lstm --num_steps 10 --learning --num_epoches 1000 --lr 0.0001 --start_epsilon 0.3 --discount_factor 0.9 --reuse_models --output_name insurance_210422 --value_network_name a2c_lstm_value_b_insurance --policy_network_name a2c_lstm_policy_b_insurance --start_date 20200101 --end_date 20200901
+모델 저장용
+python main.py --stock_code 105560 055550 086790 024110 138930 --ver v3 --rl_method a3c --net lstm --num_steps 15 --learning --num_epoches 100 --lr 0.0001 --start_epsilon 0.6 --discount_factor 0.9 --output_name bank_210426 --value_network_name bank_210426_value --policy_network_name bank_210426_policy --start_date 20200101 --end_date 20200901
+학습용
+python main.py --stock_code 105560 055550 086790 024110 138930 --ver v3 --rl_method a3c --net lstm --num_steps 10 --learning --num_epoches 1000 --lr 0.0001 --start_epsilon 0.3 --discount_factor 0.9 --reuse_models --output_name bank_210426 --value_network_name bank_210426_value --policy_network_name bank_210426_policy --start_date 20200101 --end_date 20200901 --reuse_models
+시뮬레이션용
+python main.py --stock_code 105560 055550 086790 024110 138930 --ver v3 --rl_method a3c --net lstm --num_steps 10 --num_epoches 1000 --lr 0.0001 --start_epsilon 0.3 --discount_factor 0.9 --reuse_models --output_name bank_210426 --value_network_name bank_210426_value --policy_network_name bank_210426_policy --start_date 20200101 --end_date 20200901 --reuse_models
 # 이거 bank 로 이름 다 바꿔줘야 돼.
+
+test
+python main.py --stock_code 105560 055550 086790 024110 138930 --ver v3 --rl_method a3c --net lstm --num_steps 10 --learning --num_epoches 50 --lr 0.0001 --start_epsilon 0.3 --discount_factor 0.9 --output_name insurance_210426t --value_network_name a2c_lstm_value_b2_insurance --policy_network_name a2c_lstm_policy_b2_insurance --start_date 20200101 --end_date 20200901
+
 
 
 0,0,KB금융,A105560,kospi,221626,2008-10-10,6.41

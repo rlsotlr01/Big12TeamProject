@@ -80,9 +80,9 @@ class ReinforcementLearner:
             activation='linear', loss='mse'):
         if self.net == 'dnn':
             self.value_network = DNN(
-                input_dim=self.num_features, 
-                output_dim=self.agent.NUM_ACTIONS, 
-                lr=self.lr, shared_network=shared_network, 
+                input_dim=self.num_features, # 컬럼 갯수(T,G,F, ohlc, V) + 2 (강화학습 상태 2개)
+                output_dim=self.agent.NUM_ACTIONS,  # 2개 -> 매수 또는 매도
+                lr=self.lr, shared_network=shared_network,  # 공유신경망 (초기세팅)
                 activation=activation, loss=loss)
         elif self.net == 'lstm':
             self.value_network = LSTMNetwork(
