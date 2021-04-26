@@ -2,6 +2,7 @@ import pandas as pd
 import numpy as np
 import settings
 from sklearn.preprocessing import MinMaxScaler
+import os
 
 # 전처리 빼곤 다 완료.
 COLUMNS_CHART_DATA = ['date', 'open', 'high', 'low', 'close', 'volume']
@@ -174,6 +175,9 @@ def load_data(fpath, date_from, date_to, ver='v2'):
                             converters={'date': lambda x: str(x)})
         data = pd.merge(data1, data2, how='left')
         data = pd.merge(data, data3, how='left')
+
+        data.to_csv(fpath.replace('.csv','m.csv'), index=False)
+        # 합쳐진 csv 파일을 v3 에 종목코드m.csv 로 저장한다.
 
     if ver == 'v1':
         data.columns = ['date', 'open', 'high', 'low', 'close', 'volume']
