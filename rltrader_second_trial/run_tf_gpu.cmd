@@ -27,7 +27,7 @@ DB손해보험(005830), 메리츠화재(000060), 삼성화재000810, 코리안�
 모델 저장용
 python main.py --stock_code 105560 055550 086790 024110 138930 --ver v3 --rl_method a3c --net lstm --num_steps 15 --learning --num_epoches 100 --lr 0.0001 --start_epsilon 0.6 --discount_factor 0.9 --output_name bank_210426 --value_network_name bank_210426_value --policy_network_name bank_210426_policy --start_date 20200101 --end_date 20200901
 학습용
-python main.py --stock_code 105560 055550 086790 024110 138930 --ver v3 --rl_method a3c --net lstm --num_steps 10 --learning --num_epoches 1000 --lr 0.0001 --start_epsilon 0.3 --discount_factor 0.9 --reuse_models --output_name bank_210426 --value_network_name bank_210426_value --policy_network_name bank_210426_policy --start_date 20200101 --end_date 20200901 --reuse_models
+python main.py --stock_code 105560 055550 086790 024110 138930 --ver v3 --rl_method a3c --net lstm --num_steps 10 --learning --num_epoches 500 --lr 0.0001 --start_epsilon 0.3 --discount_factor 0.9 --reuse_models --output_name bank_210426 --value_network_name bank_210426_value --policy_network_name bank_210426_policy --start_date 20200101 --end_date 20200901 --reuse_models
 시뮬레이션용
 python main.py --stock_code 105560 055550 086790 024110 138930 --ver v3 --rl_method a3c --net lstm --num_steps 10 --num_epoches 1000 --lr 0.0001 --start_epsilon 0.3 --discount_factor 0.9 --reuse_models --output_name bank_210426 --value_network_name bank_210426_value --policy_network_name bank_210426_policy --start_date 20200101 --end_date 20200901 --reuse_models
 # 이거 bank 로 이름 다 바꿔줘야 돼.

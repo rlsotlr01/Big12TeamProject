@@ -8,7 +8,7 @@ fupath_fipcstub = 'F:/TeamStockProject/rltrader_second_trial/fipc/fstub.py'
 temp_dir = 'F:/stock_log'
 
 # your account
-acc = '33505561310'
+acc = '' # 각자의 모의 계좌번호 입력 (DY)
 
 # trading cfg
 total_amount_per_day = 3000000
