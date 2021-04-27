@@ -152,11 +152,8 @@ class InvestingCrawler:
         df_db.sort_values(by='date', ascending=True, inplace=True)
 
         # 공백, 년, 월, 일 제거하기. 한줄로 가능
-        df_db['date'] = df_db['date'].apply(lambda x: x.replace(' ', '')).apply(lambda x: x.replace('년', '')).apply(lambda x: x.replace('월', '')).apply(lambda x: x.replace('일', ''))
-        # df_db['date'] = df_db['date'].apply(lambda x: x.replace('년', ''))
-        # df_db['date'] = df_db['date'].apply(lambda x: x.replace('월', ''))
-        # df_db['date'] = df_db['date'].apply(lambda x: x.replace('일', ''))
-
+        df_db['date'] = df_db['date'].apply(lambda x: x.replace(' ', '')).apply(lambda x: x.replace('년', ''))\
+            .apply(lambda x: x.replace('월', '')).apply(lambda x: x.replace('일', ''))
         start_time = time.time()
         df_db.to_sql('global', self.conn, if_exists='replace', index=False)
         df_db.to_csv('global.csv', sep=',')

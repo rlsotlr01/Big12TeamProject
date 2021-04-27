@@ -2,7 +2,7 @@ import getopt
 import sys
 from pickle import dump
 
-from fipc.dsapi import *
+from rltrader_second_trial.fipc.dsapi import *
 
 FIPC_DEBUG = True
 ext = 'ipp'  # file extension name of dummy file for communicating between 32 and 64 bit python

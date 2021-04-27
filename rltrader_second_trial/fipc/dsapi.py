@@ -4,8 +4,8 @@ from collections import defaultdict
 import pandas as pd
 import win32com.client
 
-from fipc import fcfg as cfg
-from fipc import futil as util
+import fcfg as cfg
+import futil as util
 
 # setting for trading
 acc = cfg.acc

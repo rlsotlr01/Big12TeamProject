@@ -7,7 +7,7 @@ import numpy as np
 from fbprophet import Prophet
 from tqdm import tqdm
 
-import fipc
+from rltrader_second_trial import fipc
 
 fipc.debug = False
 

@@ -1,14 +1,14 @@
 # set python32 path
-fupath_pyx32 = 'C:\\Python36x32\\python.exe'
+fupath_pyx32 = 'C:/Users/JungJaeYong/anaconda3/envs/py36_32/python.exe'
 
 # set path of fipc stub which is cmd line parser
-fupath_fipcstub = 'E:\\gdrv\\sytra\\fipc\\fstub.py'
+fupath_fipcstub = 'F:/TeamStockProject/rltrader_second_trial/fipc/fstub.py'
 
 # temp dir used fake ipc
-temp_dir = 'C:\\Temp\\sytrap'
+temp_dir = 'F:/stock_log'
 
 # your account
-acc = ''
+acc = '33505561310'
 
 # trading cfg
 total_amount_per_day = 3000000

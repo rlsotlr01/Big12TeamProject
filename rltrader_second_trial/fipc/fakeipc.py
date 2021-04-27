@@ -2,8 +2,9 @@ import os
 import subprocess
 import uuid
 from pickle import load
+import time
 
-from fipc import fcfg as cfg
+from rltrader_second_trial.fipc import fcfg as cfg
 
 
 class SytrapFakeIpc:
@@ -29,11 +30,9 @@ class SytrapFakeIpc:
                 opt_sym = '--'
             args_str += opt_sym + str(key) + ' ' + str(kwargs[key]) + ' '
         args_str += '--ipp ' + os.path.join(cfg.temp_dir, self.make_ipp())
+        print(args_str)
         fupath = cfg.fupath_pyx32 + ' ' + cfg.fupath_fipcstub + ' ' + func + ' ' + args_str
-        proc = subprocess.Popen(fupath,
-                                shell=True,
-                                stdout=subprocess.PIPE,
-                                bufsize=-1)
+        proc = subprocess.Popen(fupath, shell=True, stdout=subprocess.PIPE, bufsize=-1)
         proc.wait()
         idp = self.load_ipp()
         return idp

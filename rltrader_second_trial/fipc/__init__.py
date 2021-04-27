@@ -1,6 +1,5 @@
 import datetime as dt
-
-from fipc import fakeipc
+from rltrader_second_trial.fipc import fakeipc
 
 fi = fakeipc.SytrapFakeIpc()
 debug = False  # default
@@ -33,3 +32,6 @@ def buy(itcode, quantity, price, ttype='normal'):
 
 def sell(itcode, quantity, price, ttype='normal'):
     return fi.call('sell', itcode=itcode, qunatity=quantity, price=price, ttype=ttype)
+
+def get_cur_price():
+    return fi.call('init_trade')
